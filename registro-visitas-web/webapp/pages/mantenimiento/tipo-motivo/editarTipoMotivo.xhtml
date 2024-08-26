@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<p:dialog id="dlgTipoMotivo" 
+				modal="true" 
+				widgetVar="dlgTipoMotivo"
+				resizable="false"
+				header="#{tipoMotivoMB.formulario=='ADD' ? form['tipoMotivo.titulo.nuevo'] : form['tipoMotivo.titulo.editar']}"
+				styleClass="dialog-fix" 
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmTipoMotivo">
+				<p:panel>
+					<div class="row mb-1">
+						<p:outputLabel for="descripcion"
+							value="#{form['form.descripcion']}"
+							styleClass="col-12 col-md-3 col-form-label" />
+						<div class="col-12 col-md-6">
+							<h:inputText id="descripcion"
+								value="#{ tipoMotivoMB.tipoMotivo.descripcion}"
+								styleClass="form-control"  onkeypress="return restringirLetrasEspacio(event)"/>
+						</div>
+					</div>
+					
+
+					
+						<div class="row mb-1" >
+	        				<h:outputLabel for="estado" value="#{form['form.flagActivo']}" styleClass="col-12 col-md-3 col-form-label" />
+	        				<div class="col-12 col-md-4">
+	          					
+	          					
+	          					<p:selectBooleanCheckbox id="estado"
+								value="#{tipoMotivoMB.tipoMotivo.lbEstadoRegistro}" styleClass="ui-chkbox-fix"
+								itemLabel="#{tipoMotivoMB.tipoMotivo.lbEstadoRegistro ? form['form.estado.activo'] : form['form.estado.inactivo'] }">
+								<p:ajax event="change" update="@this" />
+							</p:selectBooleanCheckbox>	          					
+	        				</div>
+		            	</div>
+	            	
+	            	
+	            		<div class="mt-2">
+						<div class="col-12 col-md-12 text-center">
+							<div class="border-top-buttons pt-2">
+								<p:commandButton value="#{form['form.boton.guardar']}"
+												styleClass="btn btn-secondary" 
+												actionListener="#{tipoMotivoMB.guardar}"
+												update=":frmTipoMotivo, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+								<p:commandButton value="#{form['form.boton.cancelar']}"
+												styleClass="btn btn-secondary"
+												actionListener="#{tipoMotivoMB.cerrarRegistroUsuario()}"
+												update=":frmTipoMotivo, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+							</div>
+						</div>
+					</div>
+					
+					
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

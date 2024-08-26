@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">	
+	<ui:composition>	
+		<p:dialog id="dlgPuntoControl" 
+				modal="true" 
+				widgetVar="dlgPuntoControl" 
+				resizable="false" 
+				header="#{puntoControlMB.formulario=='ADD' ? form['form.text.puntoControl.registro.titulo'] : form['form.text.puntoControl.modificar.titulo']}"
+				styleClass="dialog-fix dialog-fix-responsive"
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmPuntoControl" rendered="#{not empty puntoControlMB.puntoControl}" >
+				<p:panel>
+					<div class="row mb-1">
+	              		<h:outputLabel for="nombre" value="#{form['form.text.puntoControl.nombre']}" styleClass="col-12 col-md-3 col-form-label" />
+	               		<div class="col-12 col-md-9">
+		            		<h:inputText id="nombre" value="#{puntoControlMB.puntoControl.nombre}" 
+		            					maxlength="100" styleClass="form-control" 
+				            			disabled="#{puntoControlMB.formulario=='EDIT'}" 
+				            			onkeypress="return restringirNumeroLetrasEspacio(event)" />
+		            	</div>
+		            </div>
+		            <div class="row mb-1">
+		            	<p:row rendered="#{puntoControlMB.formulario=='ADD'}">
+			            	<h:outputLabel for="local" value="#{form['form.text.puntoControl.local']}" styleClass="col-12 col-md-3 col-form-label" />
+		               		<div class="col-12 col-md-9">
+		               			<div class="input-group">
+		               				<h:inputText id="local" value="#{puntoControlMB.puntoControl.xDescripcionLocal}" 
+				            					maxlength="100" styleClass="form-control" disabled="true"  />	
+		               				<div class="input-group-append">								  		
+							  			<h:commandLink actionListener="#{puntoControlMB.iniciarBusquedaLocal()}" 
+							  							styleClass="btn btn-secondary" 
+							  							title="#{form['form.boton.buscar']}" 
+							  							ajax="true" >
+							  				<p:ajax process="@form" update=":frmPuntoControl, :frmLocal, :listaMensajes" execute="@this" />
+								  			<i class="fa fa-search"></i>
+							  			</h:commandLink>
+							  		</div>
+		             			</div>		            		
+			            	</div>
+		            	</p:row>
+		            	<p:row rendered="#{puntoControlMB.formulario=='EDIT'}">
+			            	<h:outputLabel for="local2" value="#{form['form.text.puntoControl.local']}" styleClass="col-12 col-md-3 col-form-label" />
+		               		<div class="col-12 col-md-9">
+	               				<h:inputText id="local2" value="#{puntoControlMB.puntoControl.xDescripcionLocal}" 
+			            					maxlength="100" styleClass="form-control" disabled="true"  />	            		
+			            	</div>
+		            	</p:row>
+					</div>
+					<div class="row mb-1">
+						<p:row rendered="#{puntoControlMB.formulario=='ADD'}">
+			            	<h:outputLabel for="oficina" value="#{form['form.text.puntoControl.oficina']}" styleClass="col-12 col-md-3 col-form-label" />
+		               		<div class="col-12 col-md-9">
+		               			<div class="input-group">
+		               				<h:inputText id="oficina" value="#{puntoControlMB.puntoControl.xDescripcionOficina}" 
+				            					maxlength="100" styleClass="form-control" disabled="true"  />	
+		               				<div class="input-group-append">								  		
+							  			<h:commandLink actionListener="#{puntoControlMB.iniciarBusquedaOficina()}" 
+							  							styleClass="btn btn-secondary" 
+							  							title="#{form['form.boton.buscar']}"
+							  							ajax="true">						  			
+							  				<p:ajax process="@form" update=":frmOficina, :listaMensajes" execute="@this"  />
+								  			<i class="fa fa-search"></i>							  			
+							  			</h:commandLink>
+							  		</div>
+		             			</div>		            		
+			            	</div>
+			            </p:row>
+			            <p:row rendered="#{puntoControlMB.formulario=='EDIT'}">
+			            	<h:outputLabel for="oficina2" value="#{form['form.text.puntoControl.oficina']}" styleClass="col-12 col-md-3 col-form-label" />
+		               		<div class="col-12 col-md-9">
+	               				<h:inputText id="oficina2" value="#{puntoControlMB.puntoControl.xDescripcionOficina}" 
+			            					maxlength="100" styleClass="form-control" disabled="true"  />
+			            	</div>
+			            </p:row>
+					</div>					
+					<p:row rendered="#{puntoControlMB.formulario=='EDIT'}">
+						<div class="row mb-1" >
+	        				<h:outputLabel for="edit_flag_activo" value="#{form['form.flagActivo']}" styleClass="col-12 col-md-3 col-form-label" />
+	        				<div class="col-12 col-md-4">
+	          					<p:selectBooleanCheckbox id="edit_flag_activo" value="#{puntoControlMB.puntoControl.lbEstadoRegistro}" styleClass="ui-chkbox-fix" 
+	            								itemLabel="#{ puntoControlMB.puntoControl.lbEstadoRegistro ? form['form.estado.activo'] : form['form.estado.inactivo'] }">
+	            					<p:ajax event="change" update="@this" />
+	          					</p:selectBooleanCheckbox>	          					
+	        				</div>
+		            	</div>
+	            	</p:row>
+	            	
+					<div class="mt-2">
+						<div class="col-12 col-md-12 text-center">
+							<div class="border-top-buttons pt-2">
+								<p:commandButton value="#{form['form.boton.guardar']}" 
+												styleClass="btn btn-secondary" ajax="true"
+										 		actionListener="#{puntoControlMB.grabarPuntoControl()}" 
+										 		update=":frmLista:puntoControlDT, :frmBarOpciones, :listaMensajes" />
+								<p:commandButton value="#{form['form.boton.cancelar']}" 
+												styleClass="btn btn-secondary"
+										 		actionListener="#{puntoControlMB.cerrarRegistrarPuntoControl()}" 
+										 		update=":frmLista:puntoControlDT, :frmBarOpciones, :listaMensajes" />
+								
+							</div>
+						</div>
+					</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

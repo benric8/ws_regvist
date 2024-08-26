@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal.xhtml">
+
+	<ui:define name="content">
+		<p:panel id="pBusqueda"
+				header="#{form['form.text.puntoControl.panelBusqueda']}"
+				toggleable="true" 
+				toggleSpeed="500" 
+				closeSpeed="500"
+				widgetVar="panel">
+			<h:form id="frmBusqueda">
+				<div class="row">
+					<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroFechaInicio" value="#{form['form.fechaInicial']}" /></b>
+						<p:calendar id="filtroFechaInicio"
+									value="#{visitasMB.filtroFechaInicio}"
+									maxdate="#{visitasMB.fechaMaxima}" 
+									locale="es"
+									readonlyInput="true" 
+									pattern="#{form['form.date.datePattern']}"
+									navigator="true">
+							<p:ajax event="dateSelect" listener="#{visitasMB.seleccionaFecha}" update="filtroFechaFinal" />
+							<p:ajax event="change" listener="#{visitasMB.seleccionaFecha}" update="filtroFechaFinal" />
+						</p:calendar>
+						<span class="fa fa-calendar icon-inside-input"></span>
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroFechaFinal" value="#{form['form.fechaFinal']}" /></b>
+						<p:calendar id="filtroFechaFinal"
+									value="#{visitasMB.filtroFechaFinal}"
+									maxdate="#{visitasMB.fechaMaxima}"
+									mindate="#{visitasMB.fechaMinima}" 
+									locale="es"
+									readonlyInput="true" 
+									pattern="#{form['form.date.datePattern']}"
+									navigator="true">
+						</p:calendar>
+						<span class="fa fa-calendar icon-inside-input"></span>
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroNroDocumento" value="#{form['form.nrodocumento']}" /></b>
+						<h:inputText id="filtroNroDocumento" value="#{visitasMB.filtroNroDocumento}" maxlength="20"
+									styleClass="form-control" onkeypress="return restringirNumero(event)" />
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3 mb-1">
+						<b><h:outputLabel for="filtroVisitante" value="#{form['form.visitante']}" /></b>
+						<h:inputText id="filtroVisitante" value="#{visitasMB.filtroVisitante}" maxlength="100"
+									styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+					</div>
+					<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-1">
+						<p:commandButton value="#{form['form.boton.buscar']}" 
+										ajax="false"
+										actionListener="#{visitasMB.buscarVisitas}"
+										update=":frmLista:singleDT, :listaMensajes"
+										onclick="PF('dlgVarBlock').show();"
+										oncomplete="PF('dlgVarBlock').hide()"
+										styleClass="btn btn-secondary btn-block btn-search-panel" />
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+		<div class="mt-2 mb-2">			
+			<h:form id="frmBarOpciones">
+				<p:toolbar styleClass="mb-1">
+					<p:toolbarGroup align="right">
+						<p:commandButton id="btnNuevo"
+										icon="fa fa-plus" 
+										title="#{form['form.boton.nuevo.title']}"
+										styleClass="btn btn-light"
+										action="#{visitasMB.nuevo()}" ajax="false"
+										update=":frmLista :visitas :listaMensajes"  >
+						</p:commandButton>
+							<p:commandButton id="btnEditar"
+										icon="fa fa-clock-o"
+										title="#{form['visitas.form.boton.registrar.salida']}"
+										styleClass="btn btn-light"
+										disabled="#{visitasMB.visitaSeleccionada==null}"
+										actionListener="#{visitasMB.abrirRegistrarSalida()}"										
+										update=":frmLista:visitas :frmLista:dlgRegistrarSalida :listaMensajes ">
+
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+			</h:form>
+			<h:form id="frmLista">
+				<p:dataTable id="visitas" 
+							var="visita" 
+							value="#{visitasMB.listaVisitas}" 
+							draggableColumns="false"
+							rowKey="#{visita.numeroVisita}"
+							emptyMessage="#{form['tabla.noExistenRegistros']}" 
+							paginator="true"
+							paginatorPosition="top" 
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+							rows="10"
+							rowsPerPageTemplate="5,10,15"							
+							rowIndexVar="rowIndex"
+							selection="#{visitasMB.visitaSeleccionada}"
+							rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+							disabledSelection="#{visita.horaSalida ne null}"
+							widgetVar="visitasDT" 
+							reflow="true" >					
+					<p:ajax event="rowSelectRadio"   update=":frmBarOpciones" />
+					<p:column selectionMode="single" styleClass="text-center" width="4%" />
+					<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+						<h:outputText value="#{rowIndex + 1}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.fechaVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.fechaIngreso}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.horaVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.horaIngreso}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.tipoNroDocumento']}" styleClass="text-center">
+						<h:outputText value="#{visita.tipoDocumento.abreviatura}" />
+						<h:outputText value=" - " />
+						<h:outputText value="#{visita.numeroDocumento}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.datosVisitante']}" styleClass="text-center">
+						<h:outputText value="#{visita.nombres} #{visita.apellidoPaterno} #{visita.apellidoMaterno}" />
+					</p:column>					
+					<p:column headerText="#{form['form.list.col.entidadEmpresa']}" styleClass="text-center">
+						<h:outputText value="#{visita.entidad.razonSocial}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.motivoVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.tipoMotivo.descripcion} " />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.personalVisitado']}" styleClass="text-center">
+						<h:outputText value="#{visita.visitado.nombres} #{visita.visitado.apellidoPaterno} #{visita.visitado.apellidoMaterno}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.cargo']}" styleClass="text-center">
+						<h:outputText value="#{visita.visitado.descripcionCargoSiga}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.lugar']}" styleClass="text-center">
+					    <h:outputText value="#{visita.lugar}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.col.puntocontrol']}" styleClass="text-center">
+					    <h:outputText value="#{visita.puntoControl.nombre}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.col.horaSalida']}" styleClass="text-center">
+						<h:outputText value="#{visita.horaSalida}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.observaciones']}" styleClass="text-center">
+						<h:outputText value="#{visita.observaciones}" />
+					</p:column>
+				</p:dataTable>
+				
+				<p:confirmDialog widgetVar="registrarSalida" id="dlgRegistrarSalida" header="Registrar Salida"
+				width="500" closable="false" severity="alert" style="background: #fff">
+				
+					<p:panelGrid>
+						<h:panelGroup style="display:block; text-align:center">
+					
+							<p:outputLabel for="obsSalida"
+								value="#{form['visitas.form.observaciones']}"
+								styleClass="col-12 col-md-4 col-form-label" />
+								
+							<div class="col-12 col-md-12 text-center">
+								<h:inputTextarea id="obsSalida" value="#{visitasMB.visitaSeleccionada.observaciones}" styleClass="form-control" />
+							</div>
+
+
+							<div class="mt-2">
+								<div class="col-12 col-md-12 text-center">
+									<div class="border-top-botones pt-2">
+										<p:commandButton value="#{form['form.boton.aceptar']}"
+											styleClass="btn btn-gray" 
+											actionListener="#{visitasMB.registrarSalida}" ajax="true"  update="frmLista listaMensajes">
+											</p:commandButton>
+										<p:commandButton value="#{form['form.boton.cancelar']}"
+											actionListener="#{visitasMB.cancelarRegistrarSalida}" 
+											styleClass="btn btn-gray"
+										 />
+									</div>
+								</div>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+
+				</p:confirmDialog>
+				
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

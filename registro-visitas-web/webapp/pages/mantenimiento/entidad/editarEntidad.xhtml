@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<p:dialog id="dlgEntidad" 
+				modal="true" 
+				widgetVar="dlgEntidad"
+				resizable="false"
+				header="#{entidadMB.formulario=='ADD' ? form['entidad.titulo.nuevo'] : form['entidad.titulo.editar']}"
+				styleClass="dialog-fix" 
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmEntidad">
+				<p:panel>
+
+
+
+					<div class="row mb-1">
+						
+							<p:outputLabel for="ruc" value="#{form['entidad.form.rucPide']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<div class="input-group">
+									<h:inputText id="ruc" value="#{entidadMB.filtroRucPide}"  styleClass="form-control" onkeypress="return restringirNumero(event)" />
+									<div class="input-group-append">
+										<h:commandLink actionListener="#{entidadMB.buscarPide}" styleClass="btn btn-secondary" title="#{form['form.boton.buscar']}" ajax="true">
+											<p:ajax process="@form" update=":frmEntidad,  :listaMensajes" />
+											<i class="fa fa-search"></i>
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
+						
+					</div>
+					
+					<div class="row mb-1">
+							<p:outputLabel for="ruc2" value="#{form['entidad.form.ruc']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<h:inputText id="ruc2" value="#{entidadMB.entidad.ruc}" disabled="true" styleClass="form-control" />
+							</div>
+					</div>
+					
+					<div class="row mb-1">
+						<p:outputLabel for="razonSocial" value="#{form['entidad.form.razonSocial']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-8">
+								<h:inputTextarea id="razonSocial" value="#{entidadMB.entidad.razonSocial}" rows="5" disabled="true" styleClass="form-control" />
+							</div>
+					</div>
+
+	            	
+	            	<div class="mt-2">
+						<div class="col-12 col-md-12 text-center">
+							<div class="border-top-buttons pt-2">
+								<p:commandButton value="#{form['form.boton.guardar']}"
+												styleClass="btn btn-secondary" 
+												actionListener="#{entidadMB.guardar}"
+												update=":frmEntidad, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+								<p:commandButton value="#{form['form.boton.cancelar']}"
+												styleClass="btn btn-secondary"
+												actionListener="#{entidadMB.cerrarRegistroUsuario()}"
+												update=":frmEntidad, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+							</div>
+						</div>
+					</div>
+					
+					
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

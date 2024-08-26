@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<p:dialog id="dlgResetearClave" 
+			modal="true" 
+			widgetVar="dlgResetearClave"
+			resizable="false"
+			closable="false"
+			header="#{form['usuario.resetearclave.titulo']}"
+			styleClass="dialog-fix dialog-fix-responsive" 
+			appendTo="@(body)"
+			responsive="true">
+			<h:form id="frmResetearClave">
+				<p:panelGrid columns="1" columnClasses="text-center" layout="grid" >
+					<p:outputLabel value="#{form['usuario.resetearclave.mensaje']}" />
+				</p:panelGrid>
+			
+				<p:panel>
+					<div class="row mb-1">
+						<p:outputLabel value="#{form['usuario.resetearclave.usuarioAcceso']} :" styleClass="col-12 col-md-4 col-form-label" />
+						<p:outputLabel value="#{usuarioMB.usuario.xNroDocumento}" styleClass="col-12 col-md-6 col-form-label red-text-custom" />
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel value="#{form['usuario.resetearclave.claveAcceso']} :" styleClass="col-12 col-md-4 col-form-label" />
+						<p:outputLabel value="#{usuarioMB.usuario.xPassword}" styleClass="col-12 col-md-6 col-form-label red-text-custom" />
+					</div>
+					<div class="mt-2">
+						<div class="col-12 col-md-12 text-center">
+							<div class="border-top-buttons pt-2">
+								<p:commandButton value="#{form['form.boton.aceptar']}" styleClass="btn btn-secondary"
+									onclick="PF('dlgResetearClave').hide()" update=" :frmResetearClave, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+							</div>
+						</div>
+					</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

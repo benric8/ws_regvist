@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/principal-publico.xhtml">
+
+	<ui:define name="head"></ui:define>
+	
+	<ui:define name="content">
+		<f:view>
+           	<div class="row justify-content-center align-items-start m-0">
+				<div class="col-12 col-md-12 text-center">
+					<h:form>
+						<p class="text-center error-text-info">
+							<i class="fa fa-exclamation-triangle alert-icon-error-page" aria-hidden="true" ></i>
+							<br/><br/>
+							<strong>ATENCIÓN</strong>
+							<br/><br/>
+							Se ha detectado está usando una versión desfasada del navegador “Internet Explorer”,
+							<br/> 
+							por favor ACTUALIZAR su navegador a una versión superior para poder utilizar el sistema Edictos.
+							<br/><br/>							
+						</p>
+						<h:commandButton value="#{form['form.boton.irInicio']}" 
+										ajax="false"
+										action="#{loginMB.cerrarSessionRetorno()}"
+										styleClass="btn btn-secondary"  />				
+					</h:form>
+				</div>
+			</div>			
+      	</f:view>
+	</ui:define>
+</ui:composition>

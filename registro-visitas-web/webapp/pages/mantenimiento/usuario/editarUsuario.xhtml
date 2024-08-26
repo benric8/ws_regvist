@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<p:dialog id="dlgUsuario" 
+				modal="true" 
+				widgetVar="dlgUsuario"
+				resizable="false"
+				header="#{usuarioMB.formulario=='ADD' ? form['usuario.titulo.nuevo'] : form['usuario.titulo.editar']}"
+				styleClass="dialog-fix" 
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmUsuario" rendered="#{not empty usuarioMB.usuario}">
+				<p:panel>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_desc_perfil" value="#{form['usuario.form.perfil']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8"> 
+							<h:inputText id="edit_desc_perfil" value="#{ usuarioMB.usuario.descripcionPerfilRegistro }" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:row rendered="#{ usuarioMB.formulario=='ADD' }">
+							<p:outputLabel for="edit_tipo_doc2" value="#{form['form.tipoDocumento']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<h:selectOneMenu id="edit_tipo_doc2" value="#{ usuarioMB.usuario.tipoDocumentoDto.equivalencia }" 
+												styleClass="form-control" binding="#{tipoDocSelect}" disabled="#{ usuarioMB.formulario=='EDIT' }">
+									<f:selectItem itemLabel="#{ form['form.seleccione']}" itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{usuarioMB.listaTipoDocumento}" var="tipoDocumento" 
+													itemLabel="#{tipoDocumento.abreviatura}" itemValue="#{tipoDocumento.equivalencia}" />
+									<p:ajax listener="#{usuarioMB.listenerTipoDocumento}" update="frmUsuario:edit_nro_doc,frmUsuario:edit_nro_doc_2" />
+								</h:selectOneMenu>
+							</div>
+						</p:row>	
+						<p:row rendered="#{ usuarioMB.formulario=='EDIT' }">
+							<p:outputLabel for="edit_tipo_doc" value="#{form['form.tipoDocumento']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<h:inputText id="edit_tipo_doc" value="#{ usuarioMB.usuario.tipoDocumentoDto.abreviatura }" styleClass="form-control" disabled="true" />
+							</div>
+						</p:row>	
+					</div>
+					<div class="row mb-1">
+						<p:row rendered="#{ usuarioMB.formulario=='ADD' }">
+							<p:outputLabel for="edit_nro_doc" value="#{form['form.nrodocumento']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<div class="input-group">
+									<h:inputText id="edit_nro_doc" value="#{usuarioMB.usuario.xNroDocumento}" maxlength="#{usuarioMB.tamanio}" styleClass="form-control"
+										disabled="#{ usuarioMB.formulario=='EDIT' or !usuarioMB.numeroDocumentoHabilitado}" onkeypress="return restringirNumero(event)" />
+									<div class="input-group-append">
+										<h:commandLink actionListener="#{usuarioMB.buscarUsuarioSiga}" styleClass="btn btn-secondary" title="#{form['form.boton.buscar']}">
+											<p:ajax process="@this,edit_tipo_doc,edit_nro_doc" update=":frmUsuario, :listaMensajes" />
+											<i class="fa fa-search"></i>
+										</h:commandLink>
+									</div>
+								</div>
+							</div>
+						</p:row>
+						<p:row rendered="#{ usuarioMB.formulario=='EDIT' }">
+							<p:outputLabel for="edit_nro_doc_2" value="#{form['form.nrodocumento']}" styleClass="col-12 col-md-4 col-form-label" />
+							<div class="col-12 col-md-6">
+								<h:inputText id="edit_nro_doc_2" value="#{usuarioMB.usuario.xNroDocumento}" maxlength="#{usuarioMB.tamanio}" 
+											styleClass="form-control" disabled="true" onkeypress="return restringirNumero(event)" />
+							</div>
+						</p:row>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_cod_trabajador" value="#{form['usuario.form.trabajador']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-4">
+							<h:inputText id="edit_cod_trabajador" value="#{usuarioMB.usuario.xCodigoSiga}" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_nombres" value="#{form['usuario.form.nombres']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8">
+							<h:inputText id="edit_nombres" value="#{usuarioMB.usuario.xNombre}" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_ape_pat" value="#{form['usuario.form.apellidoPaterno']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8">
+							<h:inputText id="edit_ape_pat" value="#{usuarioMB.usuario.xApellidoPaterno}" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_ape_mat" value="#{form['usuario.form.apellidoMaterno']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8"> 
+							<h:inputText id="edit_ape_mat" value="#{usuarioMB.usuario.xApellidoMaterno}" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="unidadEjecutora" value="#{form['visitas.unidadejecutora']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8">
+							<h:inputText id="unidadEjecutora" value="#{usuarioMB.usuario.descripcionUnidadEjecutora}" styleClass="form-control" disabled="true" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="selectorDJ" value="#{form['visitas.corte']} " styleClass="col-12 col-md-4 col-form-label"/>
+						<div class="col-12 col-md-8">
+							<h:selectOneMenu id="selectorDJ" value="#{usuarioMB.usuario.idCorte}" styleClass="form-control #{usuarioMB.estiloCorte}" >
+								<f:selectItem itemLabel="#{ form['form.seleccione']} " itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{usuarioMB.listaCortes}" var="corte" itemLabel="#{corte.nombreCorte}" itemValue="#{corte.idCorte}" />
+								<p:ajax listener="#{usuarioMB.validarCorte}" update="selectorDJ" />
+							</h:selectOneMenu>
+						</div>
+					</div>		
+					<div class="row mb-1">
+						<p:outputLabel for="edit_celular" value="#{form['usuario.form.celular']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-4">
+							<h:inputText id="edit_celular" value="#{usuarioMB.usuario.xCelular}" maxlength="15" styleClass="form-control" onkeypress="return restringirNumero(event)" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_telefono" value="#{form['usuario.form.telefono']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-4">
+							<h:inputText id="edit_telefono" value="#{usuarioMB.usuario.xTelefono}" maxlength="20" styleClass="form-control" onkeypress="return restringirNumero(event)" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="edit_anexo" value="#{form['usuario.form.anexo']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-4">
+							<h:inputText id="edit_anexo" value="#{usuarioMB.usuario.xAnexo}" maxlength="20" styleClass="form-control" onkeypress="return restringirNumero(event)" />
+						</div>
+					</div>
+					<div class="row mb-1">
+						<p:outputLabel for="usuarioCorreo" value="#{form['usuario.form.correo']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-8">
+							<h:inputText id="usuarioCorreo" value="#{usuarioMB.usuario.correo}" styleClass="form-control" onkeypress="return restringirNumeroLetrasGuionesArrobaPunto(event)"/>
+						</div>
+					</div>	
+					<div class="row mb-1">
+						<p:outputLabel for="edit_flag_activo" value="#{form['form.flagActivo']}" styleClass="col-12 col-md-4 col-form-label" />
+						<div class="col-12 col-md-4">
+							<p:selectBooleanCheckbox id="edit_flag_activo" value="#{usuarioMB.usuario.lbEstadoRegistro}" styleClass="ui-chkbox-fix"
+													itemLabel="#{ usuarioMB.usuario.lbEstadoRegistro ? form['form.estado.activo'] : form['form.estado.inactivo'] }">
+								<p:ajax event="change" update="@this" />
+							</p:selectBooleanCheckbox>
+						</div>
+					</div>
+					<div class="mt-2">
+						<div class="col-12 col-md-12 text-center">
+							<div class="border-top-buttons pt-2">
+								<p:commandButton value="#{form['form.boton.guardar']}"
+												styleClass="btn btn-secondary" 
+												actionListener="#{usuarioMB.guardar}"
+												update=":frmUsuario, :frmLista:tblLista, :frmBarOpciones, :listaMensajes, :frmConstancia" />
+								<p:commandButton value="#{form['form.boton.cancelar']}"
+												styleClass="btn btn-secondary"
+												actionListener="#{usuarioMB.cerrarRegistroUsuario()}"
+												update=":frmUsuario, :frmLista:tblLista, :frmBarOpciones, :listaMensajes" />
+							</div>
+						</div>
+					</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+		
+		<ui:include src="constancia.xhtml" />
+		
+	</ui:composition>
+</html>

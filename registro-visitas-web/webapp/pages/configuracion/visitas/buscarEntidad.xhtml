@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>	
+		<p:dialog id="dlgEntidad" 
+				modal="true" 
+				widgetVar="dlgEntidad"
+				resizable="false" 
+				header="#{form['visitas.form.entidad.titulo']}"
+				styleClass="dialog-fix dialog-fix-responsive" 
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmEntidad">
+				<p:panel id="pBusquedaEntidad" 
+							header="#{form['form.text.visitas.entidad.panelBusqueda']}" 
+							toggleable="true" 
+							toggleSpeed="500" 
+							closeSpeed="500" 
+							widgetVar="panel">
+					<div class="row">
+						<div class="form-group col-12 col-md-3">
+							<b><h:outputLabel for="ruc" value="#{form['visitas.form.entidad.ruc']} " /></b>
+							<h:inputText id="ruc" value="#{visitasMB.filtroRucEntidad}" maxlength="11"
+										styleClass="form-control" onkeypress="return restringirNumero(event)" />
+						</div>
+						
+						<div class="form-group col-12 col-md-7">
+							<b><h:outputLabel for="razonSocial" value="#{form['visitas.form.entidad.razonsocial']} " /></b>
+							<h:inputText id="razonSocial" value="#{visitasMB.filtroRazonSocialEntidad}" maxlength="100"
+										styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+						</div>
+
+						<div class="col-12 col-md-2  mb-2">
+							<p:commandButton value="#{form['form.boton.buscar']}"
+											actionListener="#{visitasMB.buscarEntidades}"
+											update=":frmEntidad:tbEntidades, :frmMensajeEntidad, :listaMensajes"
+											styleClass="btn btn-secondary btn-block btn-search-panel-dialog" 
+											ajax="true" />
+						</div>
+					
+					</div>					
+				</p:panel>
+				
+				<div class="mt-2">
+					<p:dataTable id="tbEntidades" 
+								var="entidad"
+								value="#{visitasMB.listaEntidades}"
+								rowKey="#{entidad.idEntidad}"
+								emptyMessage="#{form['tabla.noExistenRegistros']}"
+								paginator="true"
+								paginatorPosition="top" 
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+						 		rows="10"
+						 		rowsPerPageTemplate="5,10,15"
+						 		rowIndexVar="rowIndex"
+						 		selection="#{visitasMB.entidadSeleccionada}"
+						 		rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'evenRowColor'}"
+						 		widgetVar="tbEntidades"
+						 		reflow="true">
+						<p:ajax event="rowSelectRadio" update=":frmEntidad:btnSeleccionarEntidad"/>
+						<p:column selectionMode="single" styleClass="text-center"
+							width="4%" />
+						<p:column styleClass="text-center" width="50px;"
+							headerText="#{form['form.nro']}">
+							<h:outputText value="#{rowIndex + 1}" />
+						</p:column>
+						<p:column headerText="RUC">
+							<h:outputText value="#{entidad.ruc}" />
+						</p:column>
+						<p:column headerText="Razón Social">
+							<h:outputText value="#{entidad.razonSocial}" />
+						</p:column>
+						<f:facet name="paginatorBottomRight">
+							<p:commandButton type="button" icon="fa fa-cloud-upload" />
+						</f:facet>	
+					</p:dataTable>
+				</div>			
+				<div class="mt-2">
+					<div class="col-12 col-md-12 text-center">
+						<div class="border-top-buttons pt-2">
+							<p:commandButton id="btnSeleccionarEntidad"
+											value="#{form['form.boton.seleccionar']}"
+											styleClass="btn btn-secondary"
+											disabled="#{visitasMB.entidadSeleccionada==null}"
+											actionListener="#{visitasMB.seleccionarEntidad}"
+											update=":frmVisita:entidad" />
+							<p:commandButton value="#{form['form.boton.cancelar']}"
+								styleClass="btn btn-secondary"
+								actionListener="#{visitasMB.cerrarBusquedaEntidad()}" />
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:dialog>
+		
+	</ui:composition>
+</html>

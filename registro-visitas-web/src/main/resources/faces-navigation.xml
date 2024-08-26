@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>index</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/pages/seguridad/login.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>inicio</from-outcome>
+			<to-view-id>/pages/inicio.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>bienvenida</from-outcome>
+			<to-view-id>/pages/bienvenida.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>recuperar-contrasena</from-outcome>
+			<to-view-id>/pages/seguridad/forgotPassword.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>seg-cambio-clave</from-outcome>
+			<to-view-id>/pages/seguridad/cambiarClave.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>man-usuarios</from-outcome>
+			<to-view-id>/pages/mantenimiento/usuario/buscarUsuario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>man-tipo-motivo</from-outcome>
+			<to-view-id>/pages/mantenimiento/tipo-motivo/buscarTipoMotivo.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>man-entidad</from-outcome>
+			<to-view-id>/pages/mantenimiento/entidad/buscarEntidad.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>man-punto-control</from-outcome>
+			<to-view-id>/pages/mantenimiento/punto-control/buscarPuntoControl.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>visitas-principal</from-outcome>
+			<to-view-id>/pages/configuracion/visitas/principalVisitas.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>visitas-agregar</from-outcome>
+			<to-view-id>/pages/configuracion/visitas/agregarVisita.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>consulta-externa-visita</from-outcome>
+			<to-view-id>/pages/configuracion/visitas/consultaExternaVisita.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>seleccion-local</from-outcome>
+			<to-view-id>/pages/seleccionarLocal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>reporte-visitas</from-outcome>
+			<to-view-id>/pages/reporte/visitas/reporteVisitas.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>		
+	</navigation-rule>
+	<application />
+</faces-config>

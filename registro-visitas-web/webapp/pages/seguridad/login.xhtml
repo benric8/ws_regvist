@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal-publico.xhtml"> 
+	<ui:define name="content">
+		<f:view>
+           	<div class="row justify-content-center align-items-start m-0">
+           	
+				<div class="form-group col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 welcome-text">
+					<div class="row">
+						<div class="col-12">
+							<p class="text-justify">
+								Bienvenido al <strong class="red-text-custom">Sistema de Registro de Visitas Web</strong> 
+								mediante la cual Ud. podrá registrar y gestionar las visitas a los empleados del Poder Judicial.
+							</p>
+						</div>
+					</div>
+					<div class="row">
+						<h:form id="frmEnlace">
+							<div class="col-12 col-md-12">
+								<h:graphicImage value="/resources/images/icono-registro-visitas.png" alt="icon-visitas" height="50px" width="65px" />
+								<h:commandLink action="consulta-externa-visita" value="Registro de Visitas" />
+							</div>
+						</h:form>
+					</div>
+				</div>
+				
+				<div class="form-group col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+					<div class="card card-custom">
+						<div class="card-body">
+					    	<h:form id="frmLogin">
+					    		<div class="row">
+								  	<div class="input-group form-group col-12">
+									  	<div class="input-group-prepend">
+										  	<span class="input-group-text">									  
+										  		<i class="fa fa-id-card"></i>
+										  	</span>
+									  	</div>
+										<h:selectOneMenu id="tipodcident" placeholder="tipo de Documento" 
+														label="Tipo Documento de Identidad" tabindex="1"
+														value="#{ loginMB.tipDocumento }" styleClass="form-control">
+											<f:selectItem itemLabel="#{ form['form.seleccione']}" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{ loginMB.lstTipoDoc }" var="td" 
+															itemLabel="#{ td.abreviatura }" itemValue="#{ td.idTipoDocumento}" />
+											<p:ajax listener="#{loginMB.listenerTipoDocumento}" update="frmLogin:usuario, frmLogin:password" />
+										</h:selectOneMenu>
+									  	<div class="input-group-append">
+									  		<button type="button" class="btn btn-secondary" aria-label="Help" 
+									  				data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover"
+									  				data-content="#{form['login.usuario.ayuda.tipodoc']}" title="Tipo Documento Identidad" >
+									  			<i class="fa fa-question-circle"></i>
+									  		</button>
+									  	</div>
+							  		</div>
+									
+								  	<div class="input-group form-group col-12">
+									  	<div class="input-group-prepend">
+										  	<span class="input-group-text">							  
+										  		<i class="fa fa-user"></i>
+										  	</span>
+									  	</div>
+										<h:inputText id="usuario" value="#{loginMB.numeroDoc}" styleClass="form-control" 
+												maxlength="#{loginMB.tamanio}" 
+												tabindex="2" label="Documento de Identidad"  onkeypress="return restringirPorTipoDocumentoLogin(event)"
+												autocomplete="off" disabled="#{!loginMB.numeroDocumentoHabilitado}"/>
+									  	<div class="input-group-append">
+									  		<button type="button" class="btn btn-secondary" aria-label="Help"
+									  				data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover"
+									  				data-content="#{form['login.usuario.ayuda']}" title="Usuario" >
+									  			<i class="fa fa-question-circle"></i>
+									  		</button>
+									  	</div>
+								  	</div>
+									
+								  	<div class="input-group form-group col-12">
+									  	<div class="input-group-prepend">
+										  	<span class="input-group-text">
+									  			<i class="fa fa-key"></i>
+									  		</span>
+									  	</div>
+										<h:inputSecret id="password" value="#{loginMB.password}" styleClass="form-control" 
+														tabindex="3"  label="Contraseña" maxlength="40"
+														onkeypress="return restringirNumeroLetrasPunto(event)"
+														autocomplete="off" disabled="#{!loginMB.numeroDocumentoHabilitado}"/>
+										<div class="input-group-append">
+									  		<button type="button" class="btn btn-secondary" aria-label="Help"
+													data-container="body" data-toggle="popover" data-placement="top" data-trigger="hover"
+									  				data-content="#{form['login.usuario.password.ayuda']}" title="Contraseña" >
+									  			<i class="fa fa-question-circle"></i>
+									  		</button>
+									  	</div>
+								  	</div>
+								  	
+								  	<div class="input-group form-group col-12">
+								  		<div class="input-group-prepend">
+											<p:graphicImage id="imgCapcha" value="#{ captchaMB.captchaBean.graphicText }" 
+															cache="false" width="70" height="32" styleClass="captcha-fix" />
+								  		</div>
+								  		<h:inputText id="captcha" value="#{ loginMB.captcha }" styleClass="form-control input-captcha-fix" 
+								  		 				maxlength="5" tabindex="4" onkeypress="return restringirNumeroLetras(event)" />
+								  		<div class="input-group-append">								  		
+								  			<h:commandLink actionListener="#{ captchaMB.generarNuevaImagen }" 
+								  							styleClass="btn btn-secondary btn-refresh-fix" title="Refrescar Captcha">
+								  				<p:ajax process="@this" update="frmLogin:imgCapcha, frmLogin:captcha"  />
+									  			<i class="fa fa-refresh"></i>
+								  			</h:commandLink>
+								  		</div>
+								  	</div>
+									
+									<div class="form-group col-12">
+										<p:commandButton id="btnIngresar" 
+														value="Ingresar" 
+														ajax="false" 
+														tabindex="5"
+														update="frmLogin:imgCapcha, frmLogin:captcha"
+														action="#{ loginMB.login }"
+														styleClass="btn btn-secondary btn-block"
+														onclick="PF('dlgVarBlock').show();"
+												 		oncomplete="PF('dlgVarBlock').hide()" />
+									</div>
+									<div class="form-group col-12 text-center">
+										<h:commandLink id="recuperar"  ajax="false" rel="popover" action="recuperar-contrasena">
+							   				<h:outputText value="#{form['login.usuario.recuperarContrasena']}" /><!-- #{loginMB.cerrarSessionRetorno()} -->
+							   			</h:commandLink>
+						   			</div>
+						   		</div>
+					    	</h:form>					    	
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</f:view>
+	</ui:define>
+</ui:composition>

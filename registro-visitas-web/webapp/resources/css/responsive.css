@@ -1,0 +1,311 @@
+/* ESTILOS SIMIL : COL-SM ======================================== */
+@media (min-width: 576px) {
+	.btn-search-panel{
+		margin-top: 0!important;
+	}
+	.btn-search-panel-dialog{
+		margin-top: 28px!important;
+	}
+	.foto-dni{
+		height: 15em!important;
+		width: 12em!important;
+	}
+}
+
+@media (max-width: 576px) {	
+	/* ======= GENERAL ======================================== */
+	.dialog-fix{
+		width: 100%!important;
+	    min-width: 100%!important;
+	    max-width: 100%!important;
+	    height: 100%!important;
+	    min-height: 100%!important;
+	    max-height: 100%!important;
+	}
+		
+	.ui-growl{
+		width: 90%!important;
+	}
+	
+	.ui-growl-image{
+		margin: 0!important;
+	}
+	
+	.ui-growl-message{
+		width: 250px!important;
+	    text-align: justify;
+	    margin-right: 15px!important;
+	}
+	
+	
+	/* ======= TABLES ======================================== */
+	.ui-paginator-current{
+		display: block!important;
+	}	
+	.ui-paginator select{
+		display: block!important;
+		text-align: center!important;
+		margin: 2px auto!important;
+	}
+	
+	
+		
+	.ui-datatable table{
+		width: 99.8%!important;
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data tr.ui-widget-content{
+	    border: 1px solid #adacac;
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data td[role="gridcell"] .ui-column-title{
+		max-width: 30%;
+    	float: left;
+    	/*border-right: 1px solid #BDBDBD;*/
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data td[role="gridcell"]{
+    	text-align: left!important;
+    }
+    
+    .ui-datatable-reflow .ui-datatable-data .ui-column-title{
+    	color: #000!important;
+    	font-weight: bold!important;
+    }
+    
+    .ui-datatable-scrollable-body tbody tr.ui-state-highlight, 
+    .ui-datatable-tablewrapper tbody tr.ui-state-highlight, 
+    .ui-treetable tbody tr.ui-state-highlight{	
+		border: 1px solid #c18b24!important;
+	}
+	
+	.ui-datatable-scrollable-body tbody tr.ui-state-highlight td, 
+    .ui-datatable-tablewrapper tbody tr.ui-state-highlight td, 
+    .ui-treetable tbody tr.ui-state-highlight td{	
+		/*border: 1px solid #c18b24!important;*/
+	}
+	
+	.ui-datatable-scrollable-body tbody td,
+	.ui-datatable-tablewrapper tbody td,
+	.ui-treetable tbody td{
+		border: 0!important;
+	}
+}
+
+/* ESTILOS SIMIL : COL-MD ======================================== */
+@media (min-width: 768px) {
+	.btn-search-panel{
+		margin-top: 22px!important;
+	}
+	.btn-search-panel-dialog{
+		margin-top: 28px!important;
+	}
+	.foto-dni{
+		height: 15em!important;
+		width: 100%!important;
+	}
+}
+
+@media (max-width: 768px) {
+	
+	/* ======= CABECERA ======================================= */
+	.content-header .logo-pj {
+	    background: url('../../resources/images/logo-pj-mobile.png')!important;
+	    background-repeat: no-repeat!important;
+	   	background-size: contain!important;
+	   	background-position: left!important;
+	}
+	
+	.content-header .logo-app {
+	 	background: url('../../resources/images/app-logo-mobile.png')!important;
+	 	background-repeat: no-repeat!important;
+	   	background-size: contain!important;
+	   	background-position: right!important;
+	}
+	
+	.content-header .app-version{
+		display: none!important;
+	}
+		
+	/* ======= NAV MENU ======================================= */
+	.content-nav-menu {
+		position: static!important;
+		top: 0!important;
+	}
+	
+	.menu-data-mobile{
+		display: block!important;
+	    width: 100%;
+	    border-bottom: 1px solid #6d6c6c;
+	}
+	
+	.menu-data-mobile .perfil {
+	    font-size: 0.8rem;
+	}
+	
+	.menu-data-mobile .ue-corte {
+	    font-size: 0.7rem;
+	}
+	
+	.menu-option-mobile{
+		display: block!important;
+	}
+	
+	.menu__icon {
+	  	position: relative;
+	  	display: block;
+	  	float: left;
+	  	width: 46px;
+	  	height: 46px;    
+	  	cursor: pointer;
+	}
+ 
+	.menu__icon:after {
+	    content: '';
+	    position: absolute;
+	    display: block;
+	    width: 1rem;
+	    height: 0;
+	    top: 7px;
+	    left: 16px;
+	    box-shadow: 0 10px 0 1px #fff, 0 16px 0 1px #fff, 0 22px 0 1px #fff;
+	}
+ 
+	.menu {
+		position: absolute;
+		display: block;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		background: #4e4e4e!important;
+		height: calc(100vh - 0px);
+		width: 250px;    
+		-webkit-transform: translateX(-250px);
+		transform: translateX(-250px);
+		padding: 0;   
+	}
+	
+	.menu ul{
+		width: 100%;
+	    margin-top: .5em;
+	}
+	
+	.top-menu{
+		display: none!important;
+	}
+	
+	/* ======= CUERPO ========================================= */
+	.with--sidebar .site-pusher {
+    	-webkit-transform: translateX(250px);
+   		transform: translateX(250px);
+   	}
+ 
+ 	.with--sidebar .site-cache {
+    	position: absolute;
+     	top: 0;
+     	left: 0;
+     	right: 0;
+     	bottom: 0;
+     	background-color: rgba(0,0,0,0.6);
+     	z-index: 1000;
+   	}
+	
+	.site-pusher {
+	   height: 100%;
+	}
+  
+ 	.site-pusher {
+ 		transition-duration: 0.3s;
+   		-webkit-transform: translateX(0px);
+   		transform: translateX(0px);
+ 	}
+	
+	.content-public,
+	.content-public .content-page{
+		min-height: calc(100vh - 81px);
+	}
+	
+	.content-selector,
+	.content-selector .content-page{
+		min-height: calc(100vh - 127px)!important;
+	}
+	
+	.content-main,
+	.content-main .content-page{
+		min-height: calc(100vh - 127px)!important;
+	}
+	
+	/* ======= TABLES ======================================== */	
+	.ui-datatable table{
+		width: 99.9%;
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data tr.ui-widget-content{
+	    border: 1px solid #adacac;
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data td[role="gridcell"] .ui-column-title{
+		max-width: 30%;
+    	float: left;
+    	/*border-right: 1px solid #BDBDBD;*/
+	}
+	
+	.ui-datatable-reflow .ui-datatable-data td[role="gridcell"]{
+    	text-align: left!important;
+    }
+    
+    .ui-datatable-reflow .ui-datatable-data .ui-column-title{
+    	color: #000!important;
+    	font-weight: bold!important;
+    }
+    
+    .ui-datatable-scrollable-body tbody tr.ui-state-highlight, 
+    .ui-datatable-tablewrapper tbody tr.ui-state-highlight, 
+    .ui-treetable tbody tr.ui-state-highlight{	
+		border: 1px solid #c18b24!important;
+	}
+	
+	.ui-datatable-scrollable-body tbody tr.ui-state-highlight td, 
+    .ui-datatable-tablewrapper tbody tr.ui-state-highlight td, 
+    .ui-treetable tbody tr.ui-state-highlight td{	
+		/*border: 1px solid #c18b24!important;*/
+	}
+	
+	
+	
+	
+}
+
+/* ESTILOS SIMIL : COL-LG ======================================== */
+@media (min-width: 992px) {
+	.btn-search-panel{
+		margin-top: 22px!important;
+	}
+	.btn-search-panel-dialog{
+		margin-top: 28px!important;
+	}
+	.foto-dni{
+		height: 15em!important;
+		width: 100%!important;
+	}
+}
+
+@media (max-width: 992px) {
+}
+
+/* ESTILOS SIMIL : COL-XL ======================================== */
+@media (min-width: 1200px) {
+	.btn-search-panel{
+		margin-top: 22px!important;
+	}
+	.btn-search-panel-dialog{
+		margin-top: 28px!important;
+	}
+	.foto-dni{
+		height: 15em!important;
+		width: 100%!important;
+	}
+}
+
+@media (max-width: 1200px) {
+}

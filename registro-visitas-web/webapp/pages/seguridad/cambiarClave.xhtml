@@ -1,0 +1,66 @@
+ <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal.xhtml">				
+ 	<ui:define name="content">
+ 		<f:view>
+			<div class="row justify-content-center align-items-start m-0">
+	            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
+					<h:form id="formCambiarClave">							
+					    <p:panel id="panelBuscar" header="Cambio de contraseña" widgetVar="panelBuscar">
+					        <div class="row mb-1">
+							    <h:outputLabel for="pwd1" value="Contraseña" styleClass="col-12 col-md-5 col-form-label" />
+							    <div class="col-12 col-md-7">				    	
+								    <h:inputSecret id="pwd1" value="#{cambioClaveMB.clave1}" styleClass="form-control" maxlength="40" tabindex="1"
+								    			autocomplete="off" onkeypress="return restringirNumeroLetrasPunto(event)" />
+								</div> 
+							</div>
+							<div class="row mb-1">
+							    <h:outputLabel for="pwd1" value="Repetir Contraseña" styleClass="col-12 col-md-5 col-form-label" />
+							    <div class="col-12 col-md-7">
+							    	<h:inputSecret id="pwd2" value="#{cambioClaveMB.clave2}" styleClass="form-control" maxlength="40" tabindex="2"
+								    			autocomplete="off" onkeypress="return restringirNumeroLetrasPunto(event)" />
+						        </div>
+						    </div>
+							<div class="row mb-1">
+							    <h:outputLabel value="* Puede utilizar números, letras y el carácter punto" style="color:red" styleClass="col-12 col-md-12 col-form-label" />
+						    </div>						    
+						    <div class="mt-1">
+								<div class="col-12 col-md-12 text-center">
+									<div class="border-top-buttons pt-2">
+								    	<p:commandButton value="#{form['form.boton.aceptar']}" update=":formCambiarClave, :listaMensajes"
+								    		actionListener="#{cambioClaveMB.guardar}" onclick="PF('dlgVarBlock').show()" 
+									    	oncomplete="PF('dlgVarBlock').hide()" styleClass="btn btn-secondary" tabindex="3" ajax="false"/>
+										<p:commandButton value="Cancelar" update=":listaMensajes" 
+											action="#{cambioClaveMB.mostrarLogin}" onclick="PF('dlgVarBlock').show()" 
+											oncomplete="PF('dlgVarBlock').hide()" styleClass="btn btn-secondary" tabindex="4" ajax="false"/>
+						    		</div>
+						    	</div>
+						    </div>
+					    </p:panel>			    
+					</h:form>
+				</div>
+			</div>
+		</f:view>
+		
+		<p:dialog id="dlgConfirmacionCC" widgetVar="dlgConfirmacionCC" appendTo="@(body)" draggable="true" resizable="false" closable="false"
+			showEffect="fade" hideEffect="fade" responsive="true" header="Confirmación" modal="true" styleClass="dialog-fix dialog-fix-responsive">
+			<h:form id="frmConfirmarCC">
+				<p:panelGrid columns="1" columnClasses="text-center" layout="grid" >
+					<p:outputLabel value="Contraseña cambiada correctamente. Ingrese nuevamente a su cuenta." />
+				</p:panelGrid>
+				<p:panelGrid columns="3" layout="grid" columnClasses="text-center" >
+					<p:column />
+					<p:column>
+						<p:commandButton value="Aceptar" icon="fa fa-check" onclick="PF('dlgConfirmacionCC').hide()" 
+							update=" :listaMensajes " action="#{cambioClaveMB.mostrarLogin}" 
+							styleClass="btn btn-secondary btn-block btn-search-panel-dialog" />
+					</p:column>
+					<p:column />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

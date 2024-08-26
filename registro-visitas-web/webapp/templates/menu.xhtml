@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions">
+
+	<h:form id="frmMenu">
+		<a href="#" class="menu__icon" id="menu__icon"></a>
+		<div class="menu navbar navbar-expand-md">
+		
+			<div class="menu-data-mobile">
+			    <div class="row p-2">
+			    	<div class="col-12 col-md-12">
+			    		<b><h:outputText value="#{ sessionMB.usuarioSession.xNombreCompleto }" /></b>
+					</div>
+					<div class="col-12 col-md-12 perfil">
+			    		<b><h:outputText value="(#{ sessionMB.usuarioSession.perfilDto.xDescripcion })" /></b>
+					</div>
+					<div class="col-12 col-md-12 ue-corte">
+						<h:outputText value="#{ sessionMB.usuarioSession.descripcionUnidadEjecutora }" />
+					</div>
+					<div class="col-12 col-md-12 ue-corte">
+						<h:outputText value="#{ sessionMB.usuarioSession.descripcionCorte }" />
+					</div>
+				</div>
+			</div>
+		
+			<ul class="navbar-nav mr-auto">
+				<p:row rendered="#{sessionMB.mostrarMenu}">
+					<ui:repeat value="#{sessionMB.listaPermisosMenu}" var="opcionPadre">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink${opcionPadre.xNombre}" 
+				        			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<h:outputText value="${opcionPadre.xNombre}"/>
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink${opcionPadre.xNombre}">
+								<ui:repeat value="#{opcionPadre.listaSubMenus}" var="opcionHijo">
+									<h:commandLink value="${opcionHijo.xNombre}" action="#{loginMB.redireccionarOpcionMenu}" 
+													ajax="true" styleClass="dropdown-item">
+	 	   								<f:param name="metodoSeleccionado"  value="${opcionHijo.xMetodo}" />
+	 	   							</h:commandLink>
+								</ui:repeat>
+							</div>
+						</li>
+					</ui:repeat>
+				</p:row>
+				<li class="nav-item menu-option-mobile">
+					<!--  <h:commandLink value="#{form['form.boton.cambiarClave']}" rel="popover" action="seg-cambio-clave"
+									styleClass="nav-link" ajax="false" />-->
+					<h:commandLink value="#{form['form.boton.cerrarSesion']}" 
+									action="#{ loginMB.cerrarSessionRetorno() }" 
+									styleClass="nav-link" />
+				</li>				
+			</ul>			
+		</div>
+		
+		<div class="menu navbar navbar-expand-md top-menu">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkUsuarioLogin" 
+		        			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-user-circle" style="font-size: 1.2em;" ></i>
+						<h:outputText value="  #{ sessionMB.usuarioSession.xNombre }" />
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkUsuarioLogin">						
+						<div class="user-header">
+							<div class="row m-0">
+								<div class="col-12 normal-text">#{ sessionMB.usuarioSession.xNombreCompleto }</div>
+								<div class="col-12 small-text mb-3">Perfil: #{ sessionMB.usuarioSession.perfilDto.xDescripcion }</div>
+								<p:row rendered="#{sessionMB.puntoControlSession.nombre ne null and not empty sessionMB.puntoControlSession.nombre}">
+								<div class="col-12 small-text">Punto de control: #{ sessionMB.puntoControlSession.nombre }</div></p:row>
+								<p:row rendered="#{sessionMB.usuarioSession.descripcionUnidadEjecutora ne null and not empty sessionMB.usuarioSession.descripcionUnidadEjecutora}">
+								<div class="col-12 small-text">Unidad ejecutora: #{ sessionMB.usuarioSession.descripcionUnidadEjecutora }</div></p:row>
+								<p:row rendered="#{sessionMB.usuarioSession.descripcionCorte ne null and not empty sessionMB.usuarioSession.descripcionCorte}">
+								<div class="col-12 small-text">Corte: #{ sessionMB.usuarioSession.descripcionCorte }</div></p:row>
+								
+							</div>
+						</div>
+						<div class="dropdown-divider"></div>
+						<!--  <h:commandLink styleClass="dropdown-item" value="Cambiar Clave" rel="popover" 
+						action ="seg-cambio-clave" ajax="false" />-->
+						<h:commandLink styleClass="dropdown-item" value="#{form['form.boton.cerrarSesion']}" 
+									action="#{ loginMB.cerrarSessionRetorno() }" />							
+					</div>
+				</li>
+			</ul>
+		</div>
+		
+	</h:form>
+
+</f:view>

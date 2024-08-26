@@ -1,0 +1,150 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:f="http://java.sun.com/jsf/core"
+  				xmlns:p="http://primefaces.org/ui" 
+  				template="/templates/principal.xhtml">
+  	<ui:define name="content">
+    	<p:panel id="pBusqueda" header="#{form['usuario.form.panelBusqueda']}" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+      		<h:form id="frmBusqueda">
+        		<div class="row">        		
+					<p:row rendered="#{ sessionMB.usuarioSession.perfilDto.nIdPerfil eq '1' }">
+						<div class="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 mb-1">
+	            			<b><p:outputLabel value="#{form['usuario.form.perfil']}" /></b>
+	            			<h:selectOneMenu id="filtroPerfil" value="#{usuarioMB.filtroPerfil}" styleClass="form-control">
+	              				<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+	              				<f:selectItems value="#{usuarioMB.listaPerfil}" var="perfil" itemLabel="#{perfil.xDescripcion}" itemValue="#{perfil.nIdPerfil}" />
+	            			</h:selectOneMenu>
+		          		</div>
+	          		</p:row>	          		
+	          		<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['usuario.form.nombre.completo']}" /></b>
+            			<h:inputText id="filtroNombreCompleto" value="#{usuarioMB.filtroNombreCompleto}" maxlength="12" styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+          			</div>				
+			 		<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['form.tipoDocumento']}" /></b>
+            			<h:selectOneMenu id="filtroTipoDocumento" value="#{usuarioMB.filtroTipoDocumento}" styleClass="form-control">
+              				<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+              				<f:selectItems value="#{usuarioMB.listaTipoDocumento}" var="tipoDocumento" itemLabel="#{tipoDocumento.abreviatura}" itemValue="#{tipoDocumento.idTipoDocumento}" />
+            			</h:selectOneMenu>
+          			</div>
+          			<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['form.nrodocumento']}" /></b>
+            			<h:inputText id="filtroNumeroDocumento" value="#{usuarioMB.filtroNumeroDocumento}" maxlength="12" styleClass="form-control" onkeypress="return restringirNumero(event)" />
+          			</div>         
+          			<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['form.flagActivo']}" /></b>
+            			<h:selectOneMenu id="filtroEstado" value="#{ usuarioMB.filtroEstado}" styleClass="form-control">
+              				<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+              				<f:selectItem itemValue="1" itemLabel="#{form['form.estado.activo']}" />
+              				<f:selectItem itemValue="0" itemLabel="#{form['form.estado.inactivo']}" />
+            			</h:selectOneMenu>
+          			</div>
+          			<div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-1">
+            			<p:commandButton value="#{form['form.boton.buscar']}" 
+            							actionListener="#{usuarioMB.buscar}" 
+            							update=":frmLista:tblLista, :listaMensajes" 
+            							styleClass="btn btn-secondary btn-block btn-search-panel"
+              							onclick="PF('dlgVarBlock').show();" 
+              							oncomplete="PF('dlgVarBlock').hide()" />
+          			</div>
+        		</div>
+      		</h:form>
+    	</p:panel>
+    	<div class="mt-2 mb-2">
+      		<h:form id="frmBarOpciones">
+        		<p:toolbar styleClass="mb-1">
+          			<p:toolbarGroup align="right">
+            			<p:commandButton id="btnNuevaSol" value="#{form['form.boton.nuevo.title']}" icon="fa fa-plus"
+            							actionListener="#{usuarioMB.nuevo}" styleClass="btn btn-secondary" 
+              							update=":dlgUsuario :frmUsuario :listaMensajes">
+              				<p:ajax event="dialogReturn" listener="#{usuarioMB.restaurarFormulario}" />
+            			</p:commandButton>
+            			<p:commandButton id="btnEditar" value="Editar" icon="fa fa-pencil-square-o" 
+            							actionListener="#{usuarioMB.editar}" styleClass="btn btn-secondary" 
+              							update=":dlgUsuario :listaMensajes" disabled="#{usuarioMB.usuarioSeleccion==null}">
+              					<p:ajax event="dialogReturn" listener="#{usuarioMB.restaurarFormulario}" />
+            			</p:commandButton>
+            			<p:commandButton id="btnResetear" value="#{form['form.boton.resetear.title']}" icon="fa fa-magic"
+            							actionListener="#{usuarioMB.abrirConfirmacionRC}" styleClass="btn btn-secondary"
+              							update=":listaMensajes" disabled="#{usuarioMB.usuarioSeleccion==null}">
+              					<p:ajax event="dialogReturn"  />
+            			</p:commandButton>
+          			</p:toolbarGroup>
+        		</p:toolbar>
+      		</h:form>
+      		<h:form id="frmLista">
+      			<p:dataTable id="tblLista" 
+		      				value="#{usuarioMB.listaUsuario}" 
+		      				var="item" 
+		      				draggableColumns="false" 
+		      				emptyMessage="#{form['tabla.noExistenRegistros']}" 
+		      				rowKey="#{item.nIdUsuario}"
+		          			paginator="true" 
+		          			paginatorPosition="top" 
+		          			rows="10"
+		          			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		          			currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]" 
+		          			rowsPerPageTemplate="10,20,30" 
+		          			rowIndexVar="rowIndex"
+		          			selection="#{ usuarioMB.usuarioSeleccion}" 
+		          			rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}" 
+		          			reflow="true">
+		        	<p:ajax event="rowSelectRadio" update=":frmBarOpciones" />
+		          	<p:column selectionMode="single" styleClass="text-center" width="4%" />
+		          	<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+			            <h:outputText value="#{rowIndex + 1}" />
+			          </p:column>
+			        <p:column styleClass="text-center" headerText="#{form['form.tipoDocumento']}">
+		            	<h:outputText value="#{ item.tipoDocumentoDto.abreviatura }" />
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['form.nrodocumento']}">
+		            	<h:outputText value="#{item.xNroDocumento}" />
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['usuario.form.perfil']}">
+		            	<h:outputText value="#{item.perfilDto.xDescripcion}" style="float:left"/>
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['usuario.form.apellidoPaterno']}">
+		            	<h:outputText value="#{item.xApellidoPaterno}" style="float:left"/>
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['usuario.form.apellidoPaterno']}">
+		            	<h:outputText value="#{item.xApellidoMaterno}" style="float:left"/>
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['usuario.form.nombres']}">
+		            	<h:outputText value="#{item.xNombre}" style="float:left"/>
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['usuario.form.telefono']}">
+		            	<h:outputText value="#{item.xTelefono} #{item.xAnexo}" />
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['form.flagActivo']}">
+		            	<h:outputText value="ACTIVO" rendered="#{item.lFlagActivo == '1'}" />
+		            	<h:outputText value="INACTIVO" rendered="#{item.lFlagActivo == '0'}" />
+		          	</p:column>
+		       	</p:dataTable>
+      		</h:form>
+    	</div>
+    	<p:dialog id="dlgConfirmacionRC" widgetVar="dlgConfirmacionRC" appendTo="@(body)" draggable="true" resizable="false" closable="false"
+			showEffect="fade" hideEffect="fade" responsive="true" header="Confirmación" modal="true" styleClass="dialog-fix dialog-fix-responsive">
+			<h:form id="frmConfirmarRC">
+				<p:panelGrid columns="1" columnClasses="text-center" layout="grid" >
+					<p:outputLabel value="#{form['form.titulo.confirma.rc']}" />
+				</p:panelGrid>
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="text-right, text-left" >
+					<p:column>
+						<p:commandButton value="#{form['form.boton.si']}" icon="fa fa-check" onclick="PF('dlgConfirmacionRC').hide()" 
+							update=":frmLista:tblLista, :frmBarOpciones, :listaMensajes, :frmResetearClave" 
+							actionListener="#{usuarioMB.resetearClave}" styleClass="btn btn-secondary btn-block btn-search-panel-dialog" />
+					</p:column>
+					<p:column>
+				        <p:commandButton value="#{form['form.boton.no']}" icon="fa fa-times" onclick="PF('dlgConfirmacionRC').hide()" 
+				        	styleClass="btn btn-secondary btn-block btn-search-panel-dialog" />
+					</p:column>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+
+    	<ui:include src="editarUsuario.xhtml" />
+    	<ui:include src="resetearClave.xhtml" />
+  	</ui:define>
+</ui:composition>

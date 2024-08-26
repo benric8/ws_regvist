@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/principal.xhtml">
+
+	<ui:define name="content">
+		<h:form id="frmVisita">
+			<div class="row m-0">
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-1">
+					<p:panel id="pnlVisitante" header="Datos de visitante" widgetVar="panel">
+						<div class="row">
+							<div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9 mb-1">
+								<div class="row mb-1">
+									<h:outputLabel for="visitanteTipoDocumento" value="#{form['visitas.form.tipoDocumento']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-4 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+										<h:selectOneMenu id="visitanteTipoDocumento" value="#{visitasMB.tipoDocumentoVisitante.idTipoDocumento}"
+											styleClass="form-control" disabled="false">
+											<f:selectItem itemLabel="#{form['form.seleccione']}" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{visitasMB.listaTipoDocumentoVisitante}" var="tipoDocumentoVisitante"
+												itemLabel="#{tipoDocumentoVisitante.abreviatura}" itemValue="#{tipoDocumentoVisitante.idTipoDocumento}" ajax="true" />
+											<f:ajax event="change" listener="#{visitasMB.buscarReniec}" render="pnlVisitante" execute="@form"/>
+										</h:selectOneMenu>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitanteNumeroDocumento" value="#{form['visitas.form.nrodocumento']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-4 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+										<div class="input-group button-input-fix">
+											<h:inputText id="visitanteNumeroDocumento" value="#{visitasMB.visita.numeroDocumento}" maxlength="#{visitasMB.lengthNumeroDocumento}"
+												styleClass="form-control" disabled="#{visitasMB.documentoVisitanteDesHabilitado}" ajax="true"
+												onkeypress="return restringirPorTipoDocumento(event)" />
+											<div class="input-group-append">
+												<h:commandLink styleClass="btn btn-secondary" actionListener="#{visitasMB.buscarVisitante()}" 
+													title="#{form['form.boton.buscar']}" ajax="true" rendered="#{visitasMB.documentoVisitanteDesHabilitado}">
+													<p:ajax process="@form" update=":dlgVisitante :frmVisitante :listaMensajes" execute="@this" />
+								  					<i class="fa fa-search"></i>
+												</h:commandLink>												
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitanteNombres" value="#{form['visitas.form.nombres']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-4 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+										<h:inputText id="visitanteNombres" disabled="#{visitasMB.datosVisitanteDesHabilitado}" value="#{visitasMB.visita.nombres}" 
+											maxlength="50" styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitanteApellidoPaterno" value="#{form['form.apellidoPaterno']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-4 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+										<h:inputText id="visitanteApellidoPaterno" disabled="#{visitasMB.datosVisitanteDesHabilitado}"
+													value="#{visitasMB.visita.apellidoPaterno}" maxlength="50" styleClass="form-control"
+													onkeypress="return restringirLetrasEspacio(event)" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitanteApellidoMaterno" value="#{form['form.apellidoMaterno']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-4 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+										<h:inputText id="visitanteApellidoMaterno" disabled="#{visitasMB.datosVisitanteDesHabilitado}"
+													value="#{visitasMB.visita.apellidoMaterno}" maxlength="50" styleClass="form-control"
+													onkeypress="return restringirLetras(event)" />
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 text-center">
+								<p:graphicImage id="fotoVisitante" value="#{visitasMB.visita.foto}" library="images" stream="false" styleClass="foto-dni" />
+							</div>
+						</div>
+						<div class="row">
+							<h:outputLabel for="entidad" value="#{form['visitas.form.entidad']}" styleClass="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 col-form-label" />
+							<div class="col-12 col-sm-12 col-md-9 col-lg-9 col-xl-9">		
+								<div class="input-group">
+									<div class="btn-group">
+										<p:commandButton id="btnPersonaNatural" styleClass="#{(visitasMB.tipoPersona=='PN'? 'btn btn-secondary': 'btn')}"
+											value="#{form['visitas.form.visitante.natural']}" actionListener="#{visitasMB.cambiarTipoPersona}" 
+											update="btnPersonaNatural, btnPersonaJuridica, entidad, lnkEntidad" >
+											<f:param name="tipo" value="PN" />
+										</p:commandButton>
+										<p:commandButton id="btnPersonaJuridica" styleClass="#{(visitasMB.tipoPersona=='PJ'? 'btn btn-secondary': 'btn')}"
+											value="#{form['visitas.form.visitante.juridica']}" actionListener="#{visitasMB.cambiarTipoPersona}" 
+											update="btnPersonaNatural, btnPersonaJuridica, entidad, lnkEntidad" >
+											<f:param name="tipo" value="PJ" />
+										</p:commandButton>											
+									</div>
+									<!-- p:selectOneButton id="tipoPersona" value="#{visitasMB.tipoPersona}" styleClass="ui-priority-primary"-->
+							            <!-- f:selectItem itemLabel="Natural" itemValue="PN" /-->
+							            <!-- f:selectItem itemLabel="Juridica" itemValue="PJ" /-->
+							            <!-- p:ajax update="entidad, lnkEntidad" listener="#{visitasMB.cambiarTipoPersona()}" partialSubmit="true"/-->
+							        <!-- /p:selectOneButton-->
+									<h:inputText id="entidad" value="#{visitasMB.entidad.razonSocial}" maxlength="100" styleClass="form-control" disabled="true" disable="true" />
+									<div class="input-group-append">
+										<h:panelGroup id="lnkEntidad">
+										<h:commandLink styleClass="btn btn-secondary" rendered="#{(visitasMB.tipoPersona=='PN'? false: true)}"
+											actionListener="#{visitasMB.buscarEntidad}" title="#{form['form.boton.buscar']}" ajax="true">
+											<p:ajax process="@form" update=":dlgEntidad :frmEntidad :listaMensajes" execute="@this" />
+						  					<i class="fa fa-search"></i>
+										</h:commandLink>
+										</h:panelGroup>
+									</div>		
+								</div>		
+							</div>		
+						</div>
+					</p:panel>
+				</div>
+
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-1">
+					<p:panel id="pnlVisitado" header="Datos del colaborador" widgetVar="panel">
+						<div class="row">
+							<div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 mb-1">
+								<div class="row mb-1">
+									<h:outputLabel for="visitadoTipoDocumento" value="#{form['visitas.form.tipoDocumento']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
+										<h:inputText id="visitadoTipoDocumento" value="#{visitasMB.tipoDocumentoVisitado.abreviatura}" styleClass="form-control" readonly="true" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitadoNumeroDocumento" value="#{form['visitas.form.nrodocumento']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+										<div class="input-group button-input-fix">
+											<h:inputText id="visitadoNumeroDocumento" value="#{visitasMB.visitado.numeroDocumento}" maxlength="20" styleClass="form-control" disabled="true" />
+											<div class="input-group-append">
+												<h:commandLink styleClass="btn btn-secondary"
+															actionListener="#{visitasMB.buscarTrabajador()}" 
+															title="#{form['form.boton.buscar']}"
+															ajax="true">
+													<p:ajax process="@form" update=":dlgTrabajador :frmTrabajador :listaMensajes" execute="@this" />
+								  					<i class="fa fa-search"></i>
+												</h:commandLink>												
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitadoNombres" value="#{form['visitas.form.nombres']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+										<h:inputText id="visitadoNombres" value="#{visitasMB.visitado.nombres}" maxlength="50" styleClass="form-control" disabled="true" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitadoApellidoPaterno" value="#{form['form.apellidoPaterno']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+										<h:inputText id="visitadoApellidoPaterno" value="#{visitasMB.visitado.apellidoPaterno}" maxlength="50" styleClass="form-control" disabled="true" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="visitadoApellidoMaterno" value="#{form['form.apellidoMaterno']}" styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7">
+										<h:inputText id="visitadoApellidoMaterno" value="#{visitasMB.visitado.apellidoMaterno}" maxlength="50" styleClass="form-control" disabled="true" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="codigoVisitado" value="#{form['visitas.form.visitado.codigoSiga']}"  styleClass="col-12 col-sm-12 col-md-4 col-lg-3 col-xl-5 col-form-label" />
+									<div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+										<h:inputText id="codigoVisitado" value="#{visitasMB.visitado.codigoSiga}" maxlength="30" styleClass="form-control" disabled="true" />
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 mb-1">
+								<div class="row mb-1">
+									<h:outputLabel for="cargoVisitado" value="#{form['visitas.form.visitado.cargoSiga']}" styleClass="col-12 col-md-2 col-form-label" />
+									<div class="col-12 col-md-10">
+										<h:inputTextarea id="cargoVisitado" value="#{visitasMB.visitado.descripcionCargoSiga}" styleClass="form-control" rows="5" disabled="true" />
+									</div>
+								</div>
+								<div class="row mb-1">
+									<h:outputLabel for="oficinaVisitado" value="#{form['visitas.form.visitado.oficinaSiga']}" styleClass="col-12 col-md-2 col-form-label" />
+									<div class="col-12 col-md-10">
+										<h:inputTextarea id="oficinaVisitado" value="#{visitasMB.visitado.descripcionOficinaSiga}" styleClass="form-control" rows="5" disabled="true" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+				</div>
+			
+				<div class="form-group col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+					<p:panel id="pnlVisita" header="Datos de la visita">
+						<div class="row">
+							<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-1">						
+								<div class="row">
+									<h:outputLabel for="tipoMotivo" value="#{form['visitas.form.tipomotivo']}" styleClass="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-form-label" />
+									<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+										<h:selectOneMenu id="tipoMotivo" value="#{visitasMB.motivo.idTipoMotivo}" styleClass="form-control" process="@this">
+											<f:selectItem itemLabel="#{ form['form.seleccione']}" itemValue="" noSelectionOption="true" />
+											<f:selectItems value="#{visitasMB.listaTipoMotivo}" var="tipoMotivo" itemLabel="#{tipoMotivo.descripcion}" itemValue="#{tipoMotivo.idTipoMotivo}" />
+										</h:selectOneMenu>
+									</div>
+									<h:outputLabel for="descripcionMotivo" value="#{form['visitas.form.descripcionmotivo']}" styleClass="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-form-label" />
+									<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+										<h:inputTextarea id="descripcionMotivo" value="#{visitasMB.visita.descripcionMotivo}"  styleClass="form-control" />
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mb-1">
+								<div class="row">
+									<h:outputLabel for="lugar" value="#{form['visitas.form.lugar']}" styleClass="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-form-label" />
+									<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+										<h:inputText id="lugar" value="#{visitasMB.visita.lugar}" maxlength="50" styleClass="form-control" />
+									</div>
+									<h:outputLabel for="observaciones" value="#{form['visitas.form.observaciones']}" styleClass="col-12 col-sm-2 col-md-2 col-lg-2 col-xl-2 col-form-label" />
+									<div class="col-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+										<h:inputTextarea id="observaciones" value="#{visitasMB.visita.observaciones}" styleClass="form-control" /> 
+									</div>
+								</div>
+							</div>
+						</div>
+					</p:panel>
+				</div>
+		
+				<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mb-1 text-center">
+					<p:commandButton styleClass="btn btn-secondary"
+									value="#{form['form.boton.guardar']}"
+									actionListener="#{visitasMB.grabarVisita()}" 
+									update="listaMensajes"
+									ajax="true">
+					</p:commandButton>
+
+					<p:commandButton styleClass="btn btn-secondary"
+									action="#{visitasMB.cancelarRegistroVisita()}"
+									ajax="false"
+									value="#{form['form.boton.cancelar']}" >
+					</p:commandButton>
+				</div>
+			</div>
+
+		</h:form>
+
+		<ui:include src="agregarEntidad.xhtml" />
+		<ui:include src="mensajeEntidad.xhtml" />
+		<ui:include src="buscarEntidad.xhtml" />
+		<ui:include src="buscarTrabajador.xhtml" />
+		<ui:include src="buscarVisitante.xhtml" />
+	</ui:define>
+</ui:composition>

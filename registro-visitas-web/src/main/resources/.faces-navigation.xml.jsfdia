@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="login::#pages#seguridad#login.xhtml"
+    NAME="output1" PATH="/pages/seguridad/login.xhtml"
+    TARGET="rules:#pages#seguridad#login.xhtml" TITLE="login" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="inicio::#pages#inicio.xhtml" NAME="output2"
+    PATH="/pages/inicio.xhtml" TARGET="rules:#pages#inicio.xhtml"
+    TITLE="inicio" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT ID="bienvenida::#pages#bienvenida.xhtml"
+    NAME="output3" PATH="/pages/bienvenida.xhtml"
+    TARGET="rules:#pages#bienvenida.xhtml" TITLE="bienvenida" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="recuperar-contrasena::#pages#seguridad#forgotPassword.xhtml"
+    NAME="output4" PATH="/pages/seguridad/forgotPassword.xhtml"
+    TARGET="rules:#pages#seguridad#forgotPassword.xhtml"
+    TITLE="recuperar-contrasena" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="seg-cambio-clave::#pages#seguridad#cambiarClave.xhtml"
+    NAME="output5" PATH="/pages/seguridad/cambiarClave.xhtml"
+    TARGET="rules:#pages#seguridad#cambiarClave.xhtml"
+    TITLE="seg-cambio-clave" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="man-usuarios::#pages#mantenimiento#usuario#buscarUsuario.xhtml"
+    NAME="output6"
+    PATH="/pages/mantenimiento/usuario/buscarUsuario.xhtml"
+    TARGET="rules:#pages#mantenimiento#usuario#buscarUsuario.xhtml"
+    TITLE="man-usuarios" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="man-punto-control::#pages#mantenimiento#punto-control#buscarPuntoControl.xhtml"
+    NAME="output7"
+    PATH="/pages/mantenimiento/punto-control/buscarPuntoControl.xhtml"
+    TARGET="rules:#pages#mantenimiento#punto-control#buscarPuntoControl.xhtml"
+    TITLE="man-punto-control" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="visitas-principal::#pages#configuracion#visitas#principalVisitas.xhtml"
+    NAME="output8"
+    PATH="/pages/configuracion/visitas/principalVisitas.xhtml"
+    TARGET="rules:#pages#configuracion#visitas#principalVisitas.xhtml"
+    TITLE="visitas-principal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="visitas-agregar::#pages#configuracion#visitas#agregarVisita.xhtml"
+    NAME="output9"
+    PATH="/pages/configuracion/visitas/agregarVisita.xhtml"
+    TARGET="rules:#pages#configuracion#visitas#agregarVisita.xhtml"
+    TITLE="visitas-agregar" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="consulta-externa-visita::#pages#configuracion#visitas#consultaExternaVisita.xhtml"
+    NAME="output10"
+    PATH="/pages/configuracion/visitas/consultaExternaVisita.xhtml"
+    TARGET="rules:#pages#configuracion#visitas#consultaExternaVisita.xhtml"
+    TITLE="consulta-externa-visita" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="272,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#bienvenida.xhtml"
+  PATH="/pages/bienvenida.xhtml" SHAPE="304,673,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#seguridad#login.xhtml"
+  PATH="/pages/seguridad/login.xhtml" SHAPE="304,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#mantenimiento#usuario#buscarUsuario.xhtml"
+  PATH="/pages/mantenimiento/usuario/buscarUsuario.xhtml"
+  SHAPE="304,785,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#inicio.xhtml"
+  PATH="/pages/inicio.xhtml" SHAPE="304,561,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#configuracion#visitas#consultaExternaVisita.xhtml"
+  PATH="/pages/configuracion/visitas/consultaExternaVisita.xhtml"
+  SHAPE="304,593,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#configuracion#visitas#principalVisitas.xhtml"
+  PATH="/pages/configuracion/visitas/principalVisitas.xhtml"
+  SHAPE="304,625,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#configuracion#visitas#agregarVisita.xhtml"
+  PATH="/pages/configuracion/visitas/agregarVisita.xhtml"
+  SHAPE="304,737,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#pages#mantenimiento#punto-control#buscarPuntoControl.xhtml"
+  PATH="/pages/mantenimiento/punto-control/buscarPuntoControl.xhtml"
+  SHAPE="304,657,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#seleccionarLocal.xhtml"
+  PATH="/pages/seleccionarLocal.xhtml" SHAPE="304,801,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#seguridad#forgotPassword.xhtml"
+  PATH="/pages/seguridad/forgotPassword.xhtml" SHAPE="304,689,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#seguridad#cambiarClave.xhtml"
+  PATH="/pages/seguridad/cambiarClave.xhtml" SHAPE="304,689,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

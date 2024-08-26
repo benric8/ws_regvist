@@ -1,0 +1,184 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal-publico.xhtml">
+ 
+	<ui:define name="content">
+		<f:view>
+			<div class="content-page-header">			
+				<h1><h:outputLabel value="#{form['form.titulo.consulta.externa.visitas']}" /></h1>
+			</div>
+			<p:panel id="pBusqueda" 
+					header="#{form['form.titulo.panelBusqueda']}"
+					toggleable="true" 
+					toggleSpeed="500"	
+					closeSpeed="500" 
+					widgetVar="panel" >
+				<h:form id="frmBusqueda">
+					
+					<!-- Global site tag (gtag.js) - Google Analytics -->
+					<script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-47013024-7"></script>
+					<script>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					
+					gtag('config', 'UA-47013024-7');
+					</script>
+				
+					<div class="row">
+						<div class="col-12 col-sm-2 col-md-3 col-lg-1 col-xl-1 mb-1">
+							<b><h:outputLabel for="filtroFechaInicio" value="#{form['form.fechaInicial']}" /></b>
+							<p:calendar id="filtroFechaInicio"
+										value="#{visitasExternoMB.filtroFechaInicio}" 
+										maxdate="#{visitasExternoMB.fechaMaxima}"
+										locale="es"												
+										readonlyInput="true" 
+										pattern="#{form['form.date.datePattern']}"
+										navigator="true">
+								<p:ajax event="dateSelect" listener="#{visitasExternoMB.seleccionaFecha}" update="filtroFechaFinal" />
+								<p:ajax event="change"  listener="#{visitasExternoMB.seleccionaFecha}" update="filtroFechaFinal" />
+							</p:calendar>
+						</div>
+						<div class="col-12 col-sm-2 col-md-3 col-lg-1 col-xl-1 mb-1">
+							<b><h:outputLabel for="filtroFechaFinal" value="#{form['form.fechaFinal']}" /></b>
+							<p:calendar id="filtroFechaFinal"
+										value="#{visitasExternoMB.filtroFechaFinal}" 
+										maxdate="#{visitasExternoMB.fechaMaxima}"
+										mindate="#{visitasExternoMB.fechaMinima}"
+										locale="es"
+										readonlyInput="true"								
+										pattern="#{form['form.date.datePattern']}"
+										navigator="true">
+							</p:calendar>
+						</div>
+						<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+							<b><h:outputLabel for="filtroVisitante" value="#{form['form.visitante']}" /></b>
+							<h:inputText id="filtroVisitante" value="#{visitasExternoMB.filtroVisitante}" maxlength="100" styleClass="form-control" 
+									onkeypress="return restringirLetrasEspacio(event)"/>
+						</div>
+						
+						<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+							<b><h:outputLabel for="filtroVisitado" value="#{form['form.visitado']}" /></b>
+							<h:inputText id="filtroVisitado" value="#{visitasExternoMB.filtroVisitado}" maxlength="100" styleClass="form-control" 
+									onkeypress="return restringirLetrasEspacio(event)"/>
+						</div>
+
+						<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+							<b><h:outputLabel for="selectorDJ" value="#{form['form.distritoJudicial']} " /></b>
+							<h:selectOneMenu id="selectorDJ" value="#{visitasExternoMB.filtroDistritoJudicial}" 
+							styleClass="form-control" disabled="false">
+							<f:selectItem itemLabel="#{ form['form.seleccione']} " itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{visitasExternoMB.listaCortes}" var="corte"
+							itemLabel="#{corte.nombreCorte}" itemValue="#{corte.idCorte}" />
+							</h:selectOneMenu>
+						</div>	
+						<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+							<b><h:outputLabel for="filtroVisitante" value="#{form['form.captcha']}" /></b>
+							<div class="input-group">
+						  		<div class="input-group-prepend">
+									<p:graphicImage id="imgCapcha" value="#{ captchaMB.captchaBean.graphicText }" 
+													cache="false" width="70" height="32" styleClass="captcha-fix" />
+						  		</div>
+						  		<h:inputText id="captcha" value="#{ visitasExternoMB.captcha }" styleClass="form-control input-captcha-fix" 
+						  		 				maxlength="5" tabindex="4" onkeypress="return restringirNumeroLetras(event)" />
+						  		<div class="input-group-append">								  		
+						  			<h:commandLink actionListener="#{ captchaMB.generarNuevaImagen }" 
+						  							styleClass="btn btn-secondary btn-refresh-fix" title="Refrescar Captcha">
+						  				<p:ajax process="@this" update="frmBusqueda:imgCapcha, frmBusqueda:captcha"  />
+							  			<i class="fa fa-refresh"></i>
+						  			</h:commandLink>
+						  		</div>
+						  	</div>							
+						</div>
+						<div class="col-12 col-sm-2 col-md-2 col-lg-1 col-xl-1 mb-1">
+							<p:commandButton value="#{form['form.boton.buscar']}" 
+											ajax="false"
+											actionListener="#{visitasExternoMB.buscarVisitas}" 
+											update=":frmLista:singleDT, :listaMensajes, frmBusqueda:imgCapcha, frmBusqueda:captcha"
+											onclick="PF('dlgVarBlock').show();"
+											oncomplete="PF('dlgVarBlock').hide()"
+											styleClass="btn btn-secondary btn-block btn-search-panel"  />
+						</div>
+						<div class="col-12 col-sm-2 col-md-2 col-lg-1 col-xl-1 mb-1">
+							<p:commandButton value="#{form['form.boton.irInicio']}" 
+											ajax="false"
+											action="#{loginMB.cerrarSessionRetorno()}"
+											styleClass="btn btn-secondary btn-block btn-search-panel"  />
+						</div>										
+					</div>
+				</h:form>
+			</p:panel>			
+			<div class="mt-2 mb-2">
+				<h:form id="frmLista">
+					<p:dataTable id="singleDT" 
+								var="visita" 
+								value="#{visitasExternoMB.listaVisitas}" 
+								rowKey="#{visita.numeroVisita}"
+								emptyMessage="#{form['tabla.noExistenRegistros']}"
+								paginator="true" 
+								paginatorPosition="top" 
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+								rows="10"
+								rowsPerPageTemplate="10,20,30"
+								reflow="true"
+								rowIndexVar="rowIndex"
+								rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+								widgetVar="visitasTable">
+				        <p:column width="4%" styleClass="text-center">
+							<f:facet name="header">
+								<h:outputText value="#{form['form.nro']}" />
+							</f:facet>
+							<h:outputText value="#{rowIndex + 1}" />
+						</p:column>
+					    <p:column headerText="#{form['form.list.col.fechaVisita']}" styleClass="text-center">
+					        <h:outputText value="#{visita.fechaIngreso}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.horaVisita']}" styleClass="text-center">
+					        <h:outputText value="#{visita.horaIngreso}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.tipoNroDocumento']}" styleClass="text-center">
+					        <h:outputText value="#{visita.tipoDocumento.abreviatura}" />
+					        <h:outputText value=" - " />
+					        <h:outputText value="#{visita.numeroDocumento}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.datosVisitante']}" styleClass="text-center">
+					    	<h:outputText value="#{visita.nombres} " />
+					    	<h:outputText value="#{visita.apellidoPaterno} " />
+					    	<h:outputText value="#{visita.apellidoMaterno}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.entidadEmpresa']}" styleClass="text-center">
+					        <h:outputText value="#{visita.entidad.razonSocial}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.motivoVisita']}" styleClass="text-center">
+					        <h:outputText value="#{visita.tipoMotivo.descripcion}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.personalVisitado']}" styleClass="text-center">
+					        <h:outputText value="#{visita.visitado.nombres} " />
+					        <h:outputText value="#{visita.visitado.apellidoPaterno} " />
+					        <h:outputText value="#{visita.visitado.apellidoMaterno}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.cargo']}" styleClass="text-center">
+					        <h:outputText value="#{visita.visitado.descripcionCargoSiga}" />
+					    </p:column>				    
+					    <p:column headerText="#{form['form.list.col.lugar']}" styleClass="text-center">
+					        <h:outputText value="#{visita.lugar}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.col.horaSalida']}" styleClass="text-center">
+					        <h:outputText value="#{visita.horaSalida}" />
+					    </p:column>
+					    <p:column headerText="Distrito Jud." styleClass="text-center">
+					        <h:outputText value="#{visita.puntoControl.descripcionCorte}" />
+					    </p:column>	
+					    <p:column headerText="#{form['form.list.col.plataforma']}" styleClass="text-center">
+					        <h:outputText value="#{visita.plataforma}" />
+					    </p:column>					    
+					</p:dataTable>
+				</h:form>
+			</div>	
+		</f:view>
+	</ui:define>
+</ui:composition>

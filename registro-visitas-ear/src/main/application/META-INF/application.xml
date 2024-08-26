@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd" version="6">
+  <description>Arquetipo basado en una estructura jsf, spring y hibernate.</description>
+  <display-name>registro-visitas-web-ear</display-name>
+  <module>
+    <web>
+      <web-uri>registro-visitas-web-1.1.0.war</web-uri>
+      <context-root>/registro-visitas</context-root>
+    </web>
+  </module>
+</application>

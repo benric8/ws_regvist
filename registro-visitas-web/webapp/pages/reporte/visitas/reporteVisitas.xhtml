@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal.xhtml">
+
+	<ui:define name="content">
+		<p:panel id="pBusqueda" header="#{form['form.text.puntoControl.panelBusqueda']}"
+				toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+			<h:form id="frmBusqueda">
+				<div class="row">
+					<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroFechaInicio" value="#{form['form.fechaInicial']}" /></b>
+						<p:calendar id="filtroFechaInicio"
+									value="#{reporteMB.filtroFechaInicio}"
+									maxdate="#{reporteMB.fechaMaxima}" 
+									locale="es"
+									readonlyInput="true" 
+									pattern="#{form['form.date.datePattern']}"
+									navigator="true">
+							<p:ajax event="dateSelect" listener="#{reporteMB.seleccionaFecha}" update="filtroFechaFinal" />
+							<p:ajax event="change" listener="#{reporteMB.seleccionaFecha}" update="filtroFechaFinal" />
+						</p:calendar>
+						<span class="fa fa-calendar icon-inside-input"></span>
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroFechaFinal" value="#{form['form.fechaFinal']}" /></b>
+						<p:calendar id="filtroFechaFinal"
+									value="#{reporteMB.filtroFechaFinal}"
+									maxdate="#{reporteMB.fechaMaxima}"
+									mindate="#{reporteMB.fechaMinima}" 
+									locale="es"
+									readonlyInput="true" 
+									pattern="#{form['form.date.datePattern']}"
+									navigator="true">
+						</p:calendar>
+						<span class="fa fa-calendar icon-inside-input"></span>
+					</div>
+					<div class="col-12 col-sm-4 col-md-3 col-lg-3 col-xl-3 mb-1">
+						<b><h:outputLabel for="filtroVisitante" value="#{form['form.visitante']}" /></b>
+						<h:inputText id="filtroVisitante" value="#{reporteMB.filtroVisitante}" maxlength="100"
+									styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+					</div>
+					<div class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 mb-1">
+          		  		<b><h:outputLabel for="filtroPunto" value="#{form['form.seleccion.puntocontrol']}" /></b>
+						<h:selectOneMenu id="filtroPunto" value="#{ reporteMB.filtroPuntoControl }" styleClass="form-control">
+						  	<f:selectItem itemLabel="#{ form['form.todos']} " itemValue="" noSelectionOption="true" />
+		                	<f:selectItems value="#{reporteMB.listaPuntoControl}" var="punto" 
+		                					itemLabel="#{punto.xDescripcionLocal} / #{punto.nombre}" itemValue="#{punto.nIdPuntoControl}|#{punto.xDescripcionLocal} / #{punto.nombre}" />
+		                </h:selectOneMenu>							
+		          	</div>
+					<div class="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 mb-1">
+						<p:commandButton value="#{form['form.boton.buscar']}" 
+										ajax="false"
+										actionListener="#{reporteMB.buscarVisitas}"
+										update=" :frmLista:visitasDT, :listaMensajes"
+										onclick="PF('dlgVarBlock').show();"
+										oncomplete="PF('dlgVarBlock').hide()"
+										styleClass="btn btn-secondary btn-search-panel" />
+					</div>
+					<div class="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 mb-1">
+						<p:commandButton id="btnGenerar" value="#{form['form.boton.generar']}" 
+										actionListener="#{reporteMB.generarReporte}"
+										update=":listaMensajes" ajax="false"
+										styleClass="btn btn-secondary btn-search-panel" >
+							<p:fileDownload value="#{ reporteMB.reporte }" contentDisposition="attachment" />
+						</p:commandButton>										
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+		<div class="mt-2 mb-2">			
+			<h:form id="frmLista">
+				<p:dataTable id="visitas" var="visita" widgetVar="visitasDT" 
+					value="#{reporteMB.listaVisitas}" 
+							draggableColumns="false"
+							rowKey="#{visita.numeroVisita}"
+							emptyMessage="#{form['tabla.noExistenRegistros']}" 
+							paginator="true"
+							paginatorPosition="top" 
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+							rows="10"
+							rowsPerPageTemplate="5,10,15"							
+							rowIndexVar="rowIndex"
+							selection="#{reporteMB.visitaSeleccionada}"
+							rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+							disabledSelection="#{visita.horaSalida ne null}"
+							reflow="true" >					
+					<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+						<h:outputText value="#{rowIndex + 1}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.local']}" styleClass="text-center">
+					    <h:outputText value="#{visita.puntoControl.xDescripcionLocal}" />
+				    </p:column>
+					<p:column headerText="#{form['form.list.col.puntocontrol']}" styleClass="text-center">
+					    <h:outputText value="#{visita.puntoControl.nombre}" />
+				    </p:column>
+					<p:column headerText="#{form['form.list.col.fechaVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.fechaIngreso}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.horaVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.horaIngreso}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.tipoNroDocumento']}" styleClass="text-center">
+						<h:outputText value="#{visita.tipoDocumento.abreviatura}" />
+						<h:outputText value=" - " />
+						<h:outputText value="#{visita.numeroDocumento}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.datosVisitante']}" styleClass="text-center">
+						<h:outputText value="#{visita.nombres} #{visita.apellidoPaterno} #{visita.apellidoMaterno}" />
+					</p:column>					
+					<p:column headerText="#{form['form.list.col.entidadEmpresa']}" styleClass="text-center">
+						<h:outputText value="#{visita.entidad.razonSocial}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.motivoVisita']}" styleClass="text-center">
+						<h:outputText value="#{visita.tipoMotivo.descripcion} " />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.personalVisitado']}" styleClass="text-center">
+						<h:outputText value="#{visita.visitado.nombres} #{visita.visitado.apellidoPaterno} #{visita.visitado.apellidoMaterno}" />
+					</p:column>
+					<p:column headerText="#{form['form.list.col.cargo']}" styleClass="text-center">
+						<h:outputText value="#{visita.visitado.descripcionCargoSiga}" />
+					</p:column>	
+					<p:column headerText="#{form['form.list.col.lugar']}" styleClass="text-center">
+					    <h:outputText value="#{visita.lugar}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.col.horaSalida']}" styleClass="text-center">
+						<h:outputText value="#{visita.horaSalida}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

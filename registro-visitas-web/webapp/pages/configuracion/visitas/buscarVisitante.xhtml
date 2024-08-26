@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:dialog id="dlgVisitante" modal="true" widgetVar="dlgVisitante" resizable="false" appendTo="@(body)" 
+		header="#{form['visitas.form.visitante.titulo']}" styleClass="dialog-fix dialog-fix-responsive" responsive="true">
+			<h:form id="frmVisitante">
+			<p:panel id="pBusquedaVisitante" header="#{form['form.text.visitas.trabajador.panelBusqueda']}" 
+				toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+
+				<div class="row">
+					<div class="col-12 col-md-2">
+						<p:selectOneRadio id="tipoBusqVisitante" value="#{visitasMB.tipoBusqVisitante}" layout="responsive" columns="1">
+				            <f:selectItem itemLabel="Nro Doc" itemValue="DNI" />
+				            <f:selectItem itemLabel="Nombres" itemValue="NYA" />
+				            <p:ajax event="change" update=":frmVisitante" listener="#{visitasMB.limpiarFiltrosBusqueda}"/>
+				        </p:selectOneRadio>
+					</div>				
+					<div class="form-group col-12 col-md-2">
+						<b><h:outputLabel for="visitanteNumeroDocumento" value="#{form['form.nrodocumento']} " /></b>
+						<h:inputText id="visitanteNumeroDocumento" value="#{visitasMB.visitanteNumeroDocumento}"
+							maxlength="8" styleClass="form-control" onkeypress="return restringirNumeroLetrasEspacioGuion(event)"
+							disabled="#{(visitasMB.tipoBusqVisitante=='DNI' ? false: true)}" />
+					</div>
+					<div class="form-group col-12 col-md-2">
+						<b><h:outputLabel for="visitanteNombres" value="#{form['form.nombres']} " /></b>
+						<h:inputText id="visitanteNombres" value="#{visitasMB.visitanteNombres}"
+							styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)"
+							disabled="#{(visitasMB.tipoBusqVisitante=='NYA' ? false: true)}" />
+					</div>
+					<div class="form-group col-12 col-md-2">
+						<b><h:outputLabel for="visitanteApellidoPaterno" value="#{form['form.apellidoPaterno']} " /></b>
+						<h:inputText id="visitanteApellidoPaterno" value="#{visitasMB.visitanteApellidoPaterno}"
+							styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)"
+							disabled="#{(visitasMB.tipoBusqVisitante=='NYA' ? false: true)}" />
+					</div>
+					<div class="form-group col-12 col-md-2">
+						<b><h:outputLabel for="visitanteApellidoMaterno" value="#{form['form.apellidoMaterno']} " /></b>
+						<h:inputText id="visitanteApellidoMaterno" value="#{visitasMB.visitanteApellidoMaterno}"
+							styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)"
+							disabled="#{(visitasMB.tipoBusqVisitante=='NYA' ? false: true)}" />
+					</div>
+					<div class="col-12 col-md-2 mb-3">
+						<p:commandButton value="#{form['form.boton.buscar']}" actionListener="#{visitasMB.buscarVisitantes}" ajax="true"
+							update="listaMensajes tbVisitantes" styleClass="btn btn-secondary btn-block btn-search-panel-dialog" />
+					</div>
+				</div>					
+			</p:panel>
+
+			<div class="mt-2">
+				<p:dataTable id="tbVisitantes" value="#{visitasMB.listaVisitantes}" rows="5" paginatorPosition="top" 
+					var="visitante" rowKey="#{visitante.nroDocumentoIdentidad}" emptyMessage="." paginator="true"
+					reflow="true" selection="#{visitasMB.visitanteSeleccionado}" rowIndexVar="rowIndex"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+					rowsPerPageTemplate="5,10,15" >
+
+					<p:ajax event="rowSelectRadio"  update=":frmVisitante:btnSeleccionar"/>
+					<p:column selectionMode="single" styleClass="text-center" width="4%" />
+					<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+						<h:outputText value="#{rowIndex + 1}" />
+					</p:column>
+					<p:column headerText="DNI">
+						<h:outputText value="#{visitante.nroDocumentoIdentidad}" />
+					</p:column>
+					<p:column headerText="Nombres">
+						<h:outputText value="#{visitante.nombres}" />
+					</p:column>
+					<p:column headerText="Apellido Paterno">
+						<h:outputText value="#{visitante.apellidoPaterno}" />
+					</p:column>
+					<p:column headerText="Apellido Materno">
+						<h:outputText value="#{visitante.apellidoMaterno}" />
+					</p:column>
+					<f:facet name="paginatorBottomRight">
+						<p:commandButton type="button" icon="fa fa-cloud-upload" />
+					</f:facet>
+				</p:dataTable>
+			</div>
+			<div class="mt-2">
+				<div class="col-12 col-md-12 text-center">
+					<div class="border-top-buttons pt-2">
+						<p:commandButton id="btnSeleccionar" update=":frmVisita:pnlVisitante" styleClass="btn btn-secondary"
+							value="#{form['form.boton.seleccionar']}" selection="#{visitasMB.visitanteSeleccionado}"
+							actionListener="#{visitasMB.seleccionarVisitante}" disabled="#{visitasMB.visitanteSeleccionado==null}"/>
+						<p:commandButton value="#{form['form.boton.cancelar']}"
+							styleClass="btn btn-secondary"
+							actionListener="#{visitasMB.cerrarBusquedaVisitante()}" />
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

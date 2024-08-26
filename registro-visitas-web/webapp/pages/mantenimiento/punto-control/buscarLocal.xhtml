@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">	
+	<ui:composition>	
+		<p:dialog id="dlgLocal" 
+				modal="true" 
+				widgetVar="dlgLocal" 
+				resizable="false" 
+				header="#{form['form.text.puntoControl.local.titulo']}"
+				styleClass="dialog-fix dialog-fix-responsive"
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmLocal">
+				<p:panel id="pBusquedaLocal" 
+						header="#{form['form.text.puntoControl.local.panelBusqueda']}" 
+						toggleable="true" 
+						toggleSpeed="500" 
+						closeSpeed="500" 
+						widgetVar="panel">
+					<div class="row">
+						<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 mb-1">
+							<h:outputLabel for="filtroDepartamento" value="#{form['form.text.puntoControl.departamento']}" styleClass="col-form-label" />
+							<h:selectOneMenu id="filtroDepartamento" value="#{puntoControlMB.filtroDepartamento}" styleClass="form-control">
+								<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+								<f:selectItems value="#{puntoControlMB.listaDepartamento}" var="departamento" 
+												itemLabel="#{departamento.nomDepartamento}" itemValue="#{departamento.idDepartamento}" ajax="true"/>
+								<f:ajax event="change" listener="#{puntoControlMB.obtenerProvincia}" execute="@form" render="filtroProvincia" />
+							</h:selectOneMenu>
+						</div>
+						<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 mb-1">
+							<h:outputLabel for="filtroProvincia" value="#{form['form.text.puntoControl.provincia']}" styleClass="col-form-label" />
+							<h:selectOneMenu id="filtroProvincia" value="#{puntoControlMB.filtroProvincia}" styleClass="form-control">
+								<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+								<f:selectItems value="#{puntoControlMB.listaProvincia}" var="provincia" 
+												itemLabel="#{provincia.nomProvincia}" itemValue="#{provincia.idProvincia}" ajax="true"/>
+								<f:ajax event="change" listener="#{puntoControlMB.obtenerDistrito}" execute="@form" render="filtroDistrito" />												
+							</h:selectOneMenu>
+						</div>
+						<div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-3 mb-1">
+							<h:outputLabel for="filtroDistrito" value="#{form['form.text.puntoControl.distrito']}" styleClass="col-form-label" />
+							<h:selectOneMenu id="filtroDistrito" value="#{puntoControlMB.filtroDistrito}" styleClass="form-control">
+								<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+								<f:selectItems value="#{puntoControlMB.listaDistrito}" var="distrito" 
+												itemLabel="#{distrito.nomDistrito}" itemValue="#{distrito.idDistrito}"/>
+							</h:selectOneMenu>
+						</div>
+						<div class="col-12 col-sm-3 col-md-2 col-lg-2 col-xl-2 mb-1">
+							<p:commandButton value="#{form['form.boton.buscar']}"
+											actionListener="#{puntoControlMB.buscarLocal()}"
+											update=":frmLocal:localDT, :listaMensajes"
+											styleClass="btn btn-secondary btn-block btn-search-panel-dialog"
+											onclick="PF('dlgVarBlock').show();"
+											oncomplete="PF('dlgVarBlock').hide()" 
+											ajax="true" />
+						</div>
+					</div>					
+				</p:panel>
+				<div class="mt-2">
+					<p:dataTable id="localDT" 
+							var="local" 
+							value="#{puntoControlMB.listaLocal}" 
+							rowKey="#{local.idCodLocal}"
+							emptyMessage="#{form['tabla.noExistenRegistros']}"
+							paginator="true" 
+							paginatorPosition="top" 
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+							rows="5"
+							rowsPerPageTemplate="5,10,15"
+							rowIndexVar="rowIndex"
+							selection="#{puntoControlMB.localSeleccionado}"
+							rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+							widgetVar="localDT"
+							reflow="true">
+				        <p:ajax event="rowSelectRadio" update=":frmLocal:btnSeleccionarLocal" />
+						<p:column selectionMode="single" styleClass="text-center"
+							width="4%" />
+						
+						<p:column styleClass="text-center" width="50px;"
+							headerText="#{form['form.nro']}">
+							<h:outputText value="#{rowIndex + 1}" />
+						</p:column>
+						
+					    <p:column headerText="#{form['form.list.puntoControl.local.col.nombre']}" styleClass="text-center">
+					        <h:outputText value="#{local.descripcion}" />
+					    </p:column>
+					    <p:column headerText="#{form['form.list.puntoControl.local.col.direccion']}" styleClass="text-center">
+					        <h:outputText value="#{local.direccion}" />
+					    </p:column>
+			       </p:dataTable>
+				</div>
+				<div class="mt-2">
+					<div class="col-12 col-md-12 text-center">
+						<div class="border-top-buttons pt-2">
+							<p:commandButton id="btnSeleccionarLocal"
+											value="#{form['form.boton.seleccionar']}" 
+											styleClass="btn btn-secondary"
+											disabled="#{puntoControlMB.localSeleccionado==null}"
+									 		actionListener="#{puntoControlMB.seleccionarLocal()}" 
+									 		update=":frmPuntoControl, :listaMensajes" ajax="true"/>
+							<p:commandButton value="#{form['form.boton.cancelar']}" 
+											styleClass="btn btn-secondary"
+									 		actionListener="#{puntoControlMB.cerrarBusquedaLocal()}" 
+									 		update=":frmPuntoControl, :listaMensajes" ajax="true"/>
+									 		
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

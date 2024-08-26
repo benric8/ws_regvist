@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="frmMenuBar">
+		<div class="row menu-data menu-data-border">
+			<div class="col-md-9">
+				<div class="row #{ (sessionMB.usuarioSession.perfilDto.nIdPerfil eq '1')?'p-3':'p-2'}">
+					<div class="col-md-12">
+						<span class="red-text-custom">Bienvenido(a):</span>
+						<span class="blue-text-custom text-uppercase"><h:outputText value="#{ sessionMB.usuarioSession.xNombreCompleto } ( #{sessionMB.usuarioSession.perfilDto.xDescripcion} )" /></span>
+					</div>
+					<p:row rendered="#{ (sessionMB.usuarioSession.perfilDto.nIdPerfil eq '1')?'false':'true' }" >
+						<div class="col-md-12">
+							<span class="red-text-custom">Unidad Ejecutora:</span>
+							<span class="blue-text-custom"><h:outputText value="#{ sessionMB.usuarioSession.descripcionUnidadEjecutora } "/></span>
+							<span class="red-text-custom">Corte:</span>
+							<span class="blue-text-custom"><h:outputText value="#{ sessionMB.usuarioSession.descripcionCorte }" /></span>
+						</div>
+					</p:row>					
+				</div>
+			</div>
+			<div class="col-md-3 text-right">
+				<div class="row p-3">
+					<div class="col-md-12">
+						<p:commandLink id="clCerrarSession" ajax="false" rel="popover" action="#{ loginMB.cerrarSessionRetorno() }">
+							<i class="fa fa-times-circle"></i>
+							<b><h:outputText value=" #{form['form.boton.cerrarSesion']}" /></b>
+						</p:commandLink>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+
+</f:view>

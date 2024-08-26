@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<p:dialog id="dlgAgregarEntidad" modal="true"
+		widgetVar="dlgAgregarEntidad" resizable="false"
+		header="#{form['form.text.visitas.entidad.panelResultado']}"
+		styleClass="dialog-fix dialog-fix-responsive" appendTo="@(body)"
+		responsive="true">
+		<h:form id="frmAgregarEntidad">
+			<p:panel>
+				<div class="row mb-1">
+					<p:outputLabel value="Se encontro la siguiente entidad en los servicios de la SUNAT" styleClass="col-12 col-md-12 col-form-label" />
+				</div>
+				<div class="row mb-1">
+					<p:outputLabel value=" " styleClass="col-12 col-md-12 col-form-label" />
+				</div>
+				<div class="row mb-1">
+					<p:outputLabel for="ruc" value="#{form['visitas.form.entidad.ruc']} " 
+						styleClass="col-12 col-md-4 col-form-label" />
+					<div class="col-12 col-md-6">
+						<h:inputText id="ruc" value="#{visitasMB.entidadPide.ruc}" styleClass="form-control" 
+							disabled="true"/>
+					</div>
+				</div>
+				<div class="row mb-1">
+					<p:outputLabel for="razonSocial" value="#{form['visitas.form.entidad.razonsocial']} "
+						styleClass="col-12 col-md-4 col-form-label" />
+					<div class="col-12 col-md-8">
+						<h:inputText id="razonSocial" value="#{visitasMB.entidadPide.razonSocial}" styleClass="form-control"
+							disabled="true" />
+					</div>
+				</div>
+				<div class="mt-2">
+					<div class="col-12 col-md-12 text-center">
+						<div class="border-top-buttons pt-2">
+							<p:commandButton value="#{form['form.boton.seleccionar']}" styleClass="btn btn-secondary"
+								actionListener="#{visitasMB.agregarEntidadPide()}" update=":frmVisita:entidad, :listaMensajes" />
+							<p:commandButton value="#{form['form.boton.cancelar']}" styleClass="btn btn-secondary"
+								actionListener="#{visitasMB.cerrarBusquedaAgregarEntidad()}" update=":frmEntidad, :listaMensajes" />
+						</div>
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

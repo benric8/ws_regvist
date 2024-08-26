@@ -1,0 +1,16 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+	<p:dialog id="dlgBlock" widgetVar="dlgVarBlock" resizable="false" closable="false" styleClass="hide-scroll"
+				appendTo="@(body)" modal="true" width="130px" height="100px" header="Estado">			
+			<div class="row m-0">
+				<div class="col-xs-12 col-md-12 text-center">
+					<img style="margin-left: auto; margin-right: auto; display: block;" 
+						alt="Cargando" src="#{request.contextPath}/resources/images/loading-pj.gif"></img>
+				</div>
+			</div>			
+	</p:dialog>
+</f:view>

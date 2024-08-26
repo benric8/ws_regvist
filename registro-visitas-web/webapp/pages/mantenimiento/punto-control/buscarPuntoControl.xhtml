@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/principal.xhtml">                
+
+	<ui:define name="content">
+		<p:panel id="pBusqueda" 
+				header="#{form['form.text.puntoControl.panelBusqueda']}" 
+				toggleable="true" 
+				toggleSpeed="500" 
+				closeSpeed="500" 
+				widgetVar="panel">
+			<h:form id="frmBusqueda">
+				<div class="row">
+					<div class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 mb-1">
+						<b><h:outputLabel for="filtroNombre" value="#{form['form.text.puntoControl.nombre']}" /></b>
+						<h:inputText id="filtroNombre" value="#{puntoControlMB.filtroNombre}" maxlength="100" styleClass="form-control" 
+								onkeypress="return restringirNumeroLetrasEspacio(event)"/>
+					</div>
+					<div class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 mb-1">
+          		  		<b><h:outputLabel for="filtroLocal" value="#{form['form.text.puntoControl.local']}" /></b>
+						<h:selectOneMenu id="filtroLocal" value="#{ puntoControlMB.filtroLocal }" styleClass="form-control">
+		                  	<f:selectItem itemLabel="#{ form['form.seleccione']} " itemValue="" noSelectionOption="true" />
+		                	<f:selectItems value="#{puntoControlMB.filtroListaLocal}" var="local" 
+		                					itemLabel="#{local.descripcion}" itemValue="#{local.idCodLocal}" />
+		                </h:selectOneMenu>							
+		          	</div>
+		          	<div class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 mb-1">
+		          		<b><h:outputLabel for="filtroEstado" value="#{form['form.flagActivo']}" /></b>
+						<h:selectOneMenu id="filtroEstado" value="#{ puntoControlMB.filtroEstado }" styleClass="form-control">
+							<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+							<f:selectItem itemValue="1" itemLabel="#{form['form.estado.activo']}" />
+							<f:selectItem itemValue="0" itemLabel="#{form['form.estado.inactivo']}" />
+						</h:selectOneMenu>
+		          	</div>
+					<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2 mb-1">
+						<p:commandButton value="#{form['form.boton.buscar']}" 
+											ajax="false"
+											actionListener="#{puntoControlMB.buscarPuntoControl()}" 
+											update=":frmLista:puntoControlDT, :listaMensajes"
+											onclick="PF('dlgVarBlock').show();"
+											oncomplete="PF('dlgVarBlock').hide()"
+											styleClass="btn btn-secondary btn-block btn-search-panel"  />
+					</div>
+				</div>
+			</h:form>
+		</p:panel>
+		<div class="mt-2 mb-2">
+			<h:form id="frmBarOpciones">
+				<p:toolbar styleClass="mb-1">
+					<p:toolbarGroup align="right">
+						<p:commandButton id="btnNuevo"
+										icon="fa fa-plus" 
+										title="#{form['form.boton.nuevo.title']}"
+										styleClass="btn btn-light"
+										actionListener="#{puntoControlMB.nuevoPuntoControl()}" 
+										update=":dlgPuntoControl :frmPuntoControl :listaMensajes :frmLista"  >
+							<p:ajax event="dialogReturn" listener="#{puntoControlMB.restaurarFormulario()}" />
+						</p:commandButton>
+						<p:commandButton id="btnEditar"
+										icon="fa fa-pencil-square-o"
+										title="#{form['form.boton.editar.title']}"
+										styleClass="btn btn-light"
+										actionListener="#{puntoControlMB.editarPuntoControl()}"										
+										update=":dlgPuntoControl :frmPuntoControl :listaMensajes :frmLista"
+										disabled="#{puntoControlMB.puntoControlSeleccionado==null}">
+							<p:ajax event="dialogReturn" listener="#{puntoControlMB.restaurarFormulario()}" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+			</h:form>
+			<h:form id="frmLista">
+				<p:dataTable id="puntoControlDT" 
+							var="puntoControl" 
+							value="#{puntoControlMB.listaPuntoControl}" 
+							rowKey="#{puntoControl.nIdPuntoControl}"
+							emptyMessage="#{form['tabla.noExistenRegistros']}"
+							paginator="true" 
+							paginatorPosition="top" 
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+							rows="10"
+							rowsPerPageTemplate="10,20,30"
+							rowIndexVar="rowIndex"
+							selection="#{puntoControlMB.puntoControlSeleccionado}"
+							rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+							widgetVar="puntoControlDT"
+							reflow="true">			        
+			        <p:ajax event="rowSelectRadio" update=":frmBarOpciones" />
+					<p:column selectionMode="single" styleClass="text-center"
+							width="4%" />
+					<p:column styleClass="text-center" width="50px;"
+							headerText="#{form['form.nro']}">
+							<h:outputText value="#{rowIndex + 1}" />
+					</p:column>
+
+				    <p:column headerText="#{form['form.list.puntoControl.col.nombre']}" styleClass="text-center">
+				        <h:outputText value="#{puntoControl.nombre}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.puntoControl.col.local']}" styleClass="text-center">
+				        <h:outputText value="#{puntoControl.xDescripcionLocal}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.puntoControl.col.oficina']}" styleClass="text-center">
+				        <h:outputText value="#{puntoControl.xDescripcionOficina}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.flagActivo']}" styleClass="text-center">
+						<h:outputText value="ACTIVO" rendered="#{puntoControl.lFlagActivo == '1'}" />
+						<h:outputText value="INACTIVO" rendered="#{puntoControl.lFlagActivo == '0'}" />
+					</p:column>
+		       </p:dataTable>
+		    </h:form>
+		</div>
+		<ui:include src="registrarPuntoControl.xhtml"/>
+		<ui:include src="buscarLocal.xhtml"/>
+		<ui:include src="buscarOficina.xhtml"/>
+	</ui:define>
+</ui:composition>

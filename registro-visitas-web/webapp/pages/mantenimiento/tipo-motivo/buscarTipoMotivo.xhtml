@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+				xmlns:ui="http://java.sun.com/jsf/facelets" 
+				xmlns:h="http://java.sun.com/jsf/html" 
+				xmlns:f="http://java.sun.com/jsf/core"
+  				xmlns:p="http://primefaces.org/ui" 
+  				template="/templates/principal.xhtml">
+  	<ui:define name="content">
+    	<p:panel id="pBusqueda" header="#{form['tipoMotivo.form.panelBusqueda']}" toggleable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel">
+      		<h:form id="frmBusqueda">
+        		<div class="row">        		
+					
+	          		<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['tipoMotivo.form.descripcion']}" /></b>
+            			<h:inputText id="descripcion" value="#{tipoMotivoMB.filtroDescripcion}"  styleClass="form-control" onkeypress="return restringirLetrasEspacio(event)" />
+          			</div>				
+          			<div class="col-12 col-sm-3 col-md-3 col-lg-2 col-xl-2 mb-1">
+            			<b><p:outputLabel value="#{form['form.flagActivo']}" /></b>
+            			<h:selectOneMenu id="filtroEstado" value="#{tipoMotivoMB.filtroEstado}" styleClass="form-control">
+              				<f:selectItem itemValue="" itemLabel="#{form['form.estado.todos']}" />
+              				<f:selectItem itemValue="1" itemLabel="#{form['form.estado.activo']}" />
+              				<f:selectItem itemValue="0" itemLabel="#{form['form.estado.inactivo']}" />
+            			</h:selectOneMenu>
+          			</div>
+          			<div class="col-12 col-sm-12 col-md-12 col-lg-2 col-xl-2 mb-1">
+            			<p:commandButton value="#{form['form.boton.buscar']}" 
+            							actionListener="#{tipoMotivoMB.buscar}" 
+            							update=":frmLista:tblLista, :listaMensajes" 
+            							styleClass="btn btn-secondary btn-block btn-search-panel"
+              							onclick="PF('dlgVarBlock').show();" 
+              							oncomplete="PF('dlgVarBlock').hide()" />
+          			</div>
+        		</div>
+      		</h:form>
+    	</p:panel>
+    	<div class="mt-2 mb-2">
+      		<h:form id="frmBarOpciones">
+        		<p:toolbar styleClass="mb-1">
+          			<p:toolbarGroup align="right">
+            			<p:commandButton id="btnNuevaSol" icon="fa fa-plus" title="#{form['form.boton.nuevo.title']}" 
+            							actionListener="#{tipoMotivoMB.nuevo}" styleClass="btn btn-light"
+              							update=":dlgTipoMotivo :frmTipoMotivo :listaMensajes">
+              				<p:ajax event="dialogReturn"/>
+            			</p:commandButton>
+            			<p:commandButton id="btnEditar" icon="fa fa-pencil-square-o" title="#{form['form.boton.editar.title']}" 
+            							actionListener="#{tipoMotivoMB.editar}" styleClass="btn btn-light"
+              							update=":dlgTipoMotivo :listaMensajes" disabled="#{tipoMotivoMB.tipoMotivoSeleccion==null}">
+              					<p:ajax event="dialogReturn"  />
+            			</p:commandButton>
+          			</p:toolbarGroup>
+        		</p:toolbar>
+      		</h:form>
+      		<h:form id="frmLista">
+      			<p:dataTable id="tblLista" 
+		      				value="#{tipoMotivoMB.listaTipoMotivo}" 
+		      				var="item" 
+		      				draggableColumns="false" 
+		      				emptyMessage="#{form['tabla.noExistenRegistros']}" 
+		      				rowKey="#{item.idTipoMotivo}"
+		          			paginator="true" 
+		          			paginatorPosition="top" 
+		          			rows="10"
+		          			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		          			currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]" 
+		          			rowsPerPageTemplate="10,20,30" 
+		          			rowIndexVar="rowIndex"
+		          			selection="#{tipoMotivoMB.tipoMotivoSeleccion}" 
+		          			rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}" 
+		          			reflow="true">
+		        	<p:ajax event="rowSelectRadio" update=":frmBarOpciones" />
+		          	<p:column selectionMode="single" styleClass="text-center" width="4%" />
+		          	<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+			            <h:outputText value="#{rowIndex + 1}" />
+			          </p:column>
+			        <p:column styleClass="text-center" headerText="#{form['tipoMotivo.form.descripcion']}">
+		            	<h:outputText value="#{ item.descripcion }" />
+		          	</p:column>
+		          	<p:column styleClass="text-center" headerText="#{form['form.flagActivo']}">
+		            	<h:outputText value="ACTIVO" rendered="#{item.estado == '1'}" />
+		            	<h:outputText value="INACTIVO" rendered="#{item.estado == '0'}" />
+		          	</p:column>
+		       	</p:dataTable>
+      		</h:form>
+    	</div>
+    	<ui:include src="editarTipoMotivo.xhtml" />
+  	</ui:define>
+</ui:composition>

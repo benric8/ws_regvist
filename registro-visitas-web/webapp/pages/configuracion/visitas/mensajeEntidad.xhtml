@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition>
+	<p:dialog id="dlgMensajeEntidad" modal="true"
+		widgetVar="dlgMensajeEntidad" resizable="false"
+		header="#{form['form.text.visitas.entidad.panelResultado']}"
+		styleClass="dialog-fix dialog-fix-responsive" appendTo="@(body)"
+		responsive="true">
+		<h:form id="frmMensajeEntidad">
+			<p:panel>
+				<div class="row mb-1">
+					<p:outputLabel value="#{visitasMB.mensajeNoEncontrado}" styleClass="col-12 col-md-12 col-form-label" />
+				</div>
+				<div class="row mb-1">
+					<div class="col-12 col-md-12">
+					<a id="btnEntidad" href="#{visitasMB.urlConsultaSUNAT}" target="_blank" onclick="" class="blue-text-custom"><b>#{visitasMB.urlConsultaSUNAT}</b></a>
+					</div>
+				</div>
+				<div class="row mb-1">
+					<p:outputLabel value=" " styleClass="col-12 col-md-12 col-form-label" />
+				</div>
+				<div class="mt-2">
+					<div class="col-12 col-md-12 text-center">
+						<div class="border-top-buttons pt-1">
+							<p:commandButton value="#{form['form.boton.cancelar']}" styleClass="btn btn-secondary"
+								actionListener="#{visitasMB.cerrarBusquedaMensajeEntidad()}" update=":frmEntidad, :listaMensajes" />
+						</div>
+					</div>
+				</div>
+			</p:panel>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<ui:composition>
+		<p:dialog id="dlgObservaciones" 
+			modal="true" 
+			widgetVar="dlgObservaciones"
+			resizable="false"
+			closable="false"
+			header="#{form['visitas.observaciones.titulo']}"
+			styleClass="dialog-fix dialog-fix-responsive" 
+			appendTo="@(body)"
+			responsive="true">
+			<h:form id="frmObservaciones">
+				<p:panel>
+					
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

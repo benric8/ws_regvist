@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:dialog id="dlgTrabajador" modal="true" widgetVar="dlgTrabajador"
+		resizable="false" header="#{form['visitas.form.trabajador.titulo']}"
+		styleClass="dialog-fix dialog-fix-responsive" appendTo="@(body)"
+		responsive="true">
+
+			<h:form id="frmTrabajador">
+			<p:panel id="pBusquedaTrabajador" 
+							header="#{form['form.text.visitas.trabajador.panelBusqueda']}" 
+							toggleable="true" 
+							toggleSpeed="500" 
+							closeSpeed="500" 
+							widgetVar="panel">
+					<div class="row">
+						<div class="form-group col-12 col-md-3">
+							<b><h:outputLabel for="trabajadorTipoDoc"
+							value="#{form['form.tipoDocumento']} " /></b>
+							<h:selectOneMenu id="trabajadorTipoDoc"
+							value="#{visitasMB.equivalencia}" styleClass="form-control"
+							disabled="false">
+							<f:selectItem itemLabel="#{ form['form.seleccione']} "
+							itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{visitasMB.listaTipoDocumentoTrabajador}"
+							var="tipoDocumentoTrabajador"
+							itemLabel="#{tipoDocumentoTrabajador.abreviatura}"
+							itemValue="#{tipoDocumentoTrabajador.equivalencia}" />
+							<f:ajax event="change" listener="#{visitasMB.cambiarTipoDocumentoTrabajador}"
+												render="trabajadorNumeroDocumento" execute="@form"/>
+							</h:selectOneMenu>
+						</div>
+						
+					<div class="form-group col-12 col-md-2">
+						<b><h:outputLabel for="trabajadorNumeroDocumento"
+							value="#{form['form.nrodocumento']} " /></b>
+						<h:inputText id="trabajadorNumeroDocumento"
+							value="#{visitasMB.trabajadorNumeroDocumento}"
+							maxlength="#{visitasMB.lengthNumeroDocumentoTrabajador}"
+							styleClass="form-control"
+							onkeypress="return restringirNumeroLetrasEspacioGuion(event)">
+						</h:inputText>
+					</div>
+
+					<div class="form-group col-12 col-md-3">
+							
+						<b><h:outputLabel for="trabajadorNombreCompleto"
+							value="#{form['visitas.form.trabajador.nombrecompleto']} " /></b>
+						<h:inputText id="trabajadorNombreCompleto"
+							value="#{visitasMB.trabajadorNombreCompleto}"
+							styleClass="form-control"
+							onkeypress="return restringirLetrasEspacio(event)">
+						</h:inputText>
+							
+					</div>
+					<div class="form-group col-12 col-md-2">
+						
+						<b><h:outputLabel for="cargoTrabajador"
+							value="#{form['visitas.form.trabajador.cargo']} " /></b>
+						<h:inputText id="cargoTrabajador"
+							value="#{visitasMB.trabajadorCargo}"
+							styleClass="form-control"
+							onkeypress="return restringirNumeroLetrasEspacio(event)">
+						</h:inputText>
+					
+					</div>
+						
+					<div class="col-12 col-md-2  mb-2">
+						<p:commandButton value="#{form['form.boton.buscar']}"
+											actionListener="#{visitasMB.buscarTrabajadores}"
+											update="listaMensajes tbTrabajadores"
+											styleClass="btn btn-secondary btn-block btn-search-panel-dialog" 
+											ajax="true" />
+											
+						
+					</div>
+					
+					</div>					
+				</p:panel>
+
+			<div class="mt-2">
+
+				
+
+					<p:dataTable id="tbTrabajadores"
+						value="#{visitasMB.listaTrabajadores}" rows="5"
+						paginatorPosition="top" var="trabajador"
+						rowKey="#{trabajador.iddidcodigo}"
+						emptyMessage="No se encontraron registros." paginator="true"
+						reflow="true" selection="#{visitasMB.trabajadorSeleccionado}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+						rowsPerPageTemplate="5,10,15" rowIndexVar="rowIndex">
+
+						
+						<p:ajax event="rowSelectRadio"  update=":frmTrabajador:btnSeleccionarTrabajador"/>
+						<p:column selectionMode="single" styleClass="text-center"
+							width="4%" />
+						<p:column styleClass="text-center" width="50px;"
+							headerText="#{form['form.nro']}">
+							<h:outputText value="#{rowIndex + 1}" />
+						</p:column>
+
+
+						<p:column headerText="Codigo">
+							<h:outputText value="#{trabajador.percodold}" />
+						</p:column>
+
+						<p:column headerText="Nombres">
+							<h:outputText value="#{trabajador.mppinombres}" />
+						</p:column>
+
+						<p:column headerText="Apellido Paterno">
+							<h:outputText value="#{trabajador.mppiappater}" />
+						</p:column>
+
+						<p:column headerText="Apellido Materno">
+							<h:outputText value="#{trabajador.mppiapmater}" />
+						</p:column>
+
+						<p:column headerText="Oficina">
+							<h:outputText value="#{trabajador.oficina}" />
+						</p:column>
+
+						<p:column headerText="Cargo">
+							<h:outputText value="#{trabajador.cargo}" />
+						</p:column>
+
+						<f:facet name="paginatorBottomRight">
+							<p:commandButton type="button" icon="fa fa-cloud-upload" />
+						</f:facet>
+						
+					</p:dataTable>
+
+
+				
+			</div>
+			
+			<div class="mt-2">
+				<div class="col-12 col-md-12 text-center">
+					<div class="border-top-buttons pt-2">
+						<p:commandButton id="btnSeleccionarTrabajador"
+							update=":frmVisita:pnlVisitado" styleClass="btn btn-secondary"
+							value="#{form['form.boton.seleccionar']}"
+							selection="#{visitasMB.trabajadorSeleccionado}"
+							actionListener="#{visitasMB.seleccionarTrabajador}" 
+							disabled="#{visitasMB.trabajadorSeleccionado==null}"/>
+						<p:commandButton value="#{form['form.boton.cancelar']}"
+							styleClass="btn btn-secondary"
+							actionListener="#{visitasMB.cerrarBusquedaTrabajador()}" />
+					</div>
+				</div>
+			</div>
+
+		</h:form>
+	</p:dialog>
+</ui:composition>
+</html>

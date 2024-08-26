@@ -1,0 +1,419 @@
+.ui-icon-seek-first {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -80px -160px;
+}
+
+.ui-icon-seek-prev {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -48px -160px;
+}
+
+.ui-icon-seek-next {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -32px -160px;
+}
+
+.ui-icon-seek-end {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -64px -160px;
+}
+
+.ui-icon-closethick {
+	background-image: url(../../javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -96px -128px;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-growl-icon-close.ui-icon-closethick {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -96px -128px;
+    width: 16px;
+    height: 16px;
+    display: block!important;
+}
+
+.ui-icon-minusthick {
+	background-image: url(../../javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -64px -128px;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-plusthick {
+	background-image: url(../../javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -32px -128px;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-circle-triangle-w {
+	background-image: url(../../javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -80px -192px;
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-circle-triangle-e {
+	background-image: url(../../javax.faces.resource/images/ui-icons_ffffff_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -48px -192px;
+    width: 16px;
+    height: 16px;
+    margin-left: -6px!important;
+}
+
+.ui-icon-check {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -65px -145px;
+    width: 13px;
+    height: 14px;
+    margin-top: -1px;
+}
+
+.ui-icon-bullet {
+	background-image: url(../../javax.faces.resource/images/ui-icons_333333_256x240.png.xhtml?ln=primefaces-bootstrap)!important;
+    background-position: -80px -144px;
+    width: 13px;
+    height: 14px;
+    margin-top: -1px;
+    margin-left: -1px;
+}
+
+.ui-button-icon-left {
+    margin-top: -9px!important;
+}
+
+.ui-button-icon-left:before {
+    font-size: 1.5em;
+}
+
+.ui-button-text-only,
+.ui-button-text.ui-c {
+    padding: .2em 1em;
+}
+
+.ui-state-disabled{
+	opacity: .5!important;
+	/*background-color: #e9ecef!important;*/
+}
+
+.ui-chkbox-box {
+    border: 1px solid #6c757d!important;
+    background: #fff;
+}
+
+.ui-chkbox-fix {
+    margin-top: 6px!important;
+}
+
+.ui-radiobutton .ui-radiobutton-box{
+	border: 1px solid #6c757d!important;
+	background: #fff;
+}
+
+.ui-dialog .ui-dialog-titlebar-close:hover, 
+.ui-dialog .ui-dialog-titlebar-close:focus, 
+.ui-dialog .ui-dialog-titlebar-minimize:hover, 
+.ui-dialog .ui-dialog-titlebar-minimize:focus, 
+.ui-dialog .ui-dialog-titlebar-maximize:hover, 
+.ui-dialog .ui-dialog-titlebar-maximize:focus {
+    padding: 1px!important;
+}
+
+.input-group>.custom-file:focus, .input-group>.custom-select:focus, .input-group>.form-control:focus {
+    z-index: 1100!important;
+}
+
+/* ======= DATE PICKER ======================================== */
+.ui-datepicker{
+	border: 1px solid;
+}
+
+.ui-datepicker-header{
+    border-radius: .25rem;
+}
+
+.ui-datepicker td a{
+	text-align: center;
+}
+
+.ui-datepicker-today a {
+    background: #8b0000!important;
+    color: #fff!important;
+    border-radius: 2px!important;
+}
+
+.ui-datepicker td a.ui-state-active{
+	background: #cdcdcd!important;
+	font-weight: bold!important;
+    border-radius: 2px!important;
+    color: #000!important;
+}
+
+.ui-datepicker td a.ui-state-hover{
+	font-weight: bold!important;
+}
+
+#ui-datepicker-div{
+	background: #efefef!important;
+	border-radius: 0.25rem!important;
+    border-color: rgb(139, 0, 0)!important;
+    border-width: 2px;
+}
+
+#ui-datepicker-div .ui-datepicker-title{
+	margin: 0;
+}
+
+#ui-datepicker-div .ui-datepicker-buttonpane{
+	border-bottom: 1px solid #8B0000;
+}
+
+#ui-datepicker-div select{
+    padding: 0 .6rem;
+    color: #333333!important;
+    background-color: #fff!important;
+    background-clip: padding-box!important;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    box-shadow: none!important;
+    height: 23px!important;
+    border: 1px solid #6c757d!important;
+    margin: 0.2em;
+    width: auto;
+}
+
+
+.ui-datepicker-prev {
+    margin-left: 4px;
+}
+
+.ui-datepicker-next{
+    right: 7px!important;
+}
+
+.ui-datepicker-prev,
+.ui-datepicker-next{
+	top: 6px!important;
+	cursor: pointer!important;
+	padding: .3em;
+}
+
+.ui-datepicker-prev.ui-state-hover,
+.ui-datepicker-next.ui-state-hover{
+	background: none;
+	border: 0;
+}
+
+.ui-datepicker .ui-datepicker-prev-hover{
+	left: 2px;
+}
+
+.ui-datepicker .ui-datepicker-next-hover{
+	right: 2px;
+}
+
+.ui-datepicker-prev.ui-state-disabled,
+.ui-datepicker-next.ui-state-disabled{
+	background: none!important;	
+}
+
+
+
+
+.ui-panel{
+	border: 1px solid #6c757d!important;
+	border-radius: .3em;
+}
+
+.ui-dialog-titlebar.ui-widget-header,
+.ui-panel-titlebar.ui-widget-header,
+.ui-paginator.ui-widget-header,
+.ui-datagrid-header,
+.ui-datatable-header,
+.ui-treetable-header,
+.ui-datepicker-header{
+	color:#FFF!important;
+	font-weight: normal;
+    border: 1px solid #8B0000;	
+	background: #8B0000!important;
+	border-radius: .3em;
+}
+
+.ui-datatable-header{
+	border-bottom: 1px solid #985252!important;
+}
+
+.ui-toolbar.ui-widget-header {
+    color: #333;
+    font-weight: bold;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+    border-radius: .25rem;
+    border: 1px solid #d8b56c;
+    background: #ccb68a!important;
+}
+
+.ui-paginator .ui-paginator-rpp-options{
+    padding: 6px;
+    min-height: 31px;
+    line-height: 1.42857143;
+    border-radius: 3px;
+    resize: none;
+    display: inline-block;
+    color: #000;
+}
+
+.ui-paginator a.ui-state-disabled{
+	cursor: default !important;
+}
+
+.ui-paginator a.ui-state-active{
+    background: #bfbfbf!important
+}
+
+.ui-paginator .ui-paginator-page, 
+.ui-paginator .ui-paginator-next, 
+.ui-paginator .ui-paginator-last, 
+.ui-paginator .ui-paginator-first, 
+.ui-paginator .ui-paginator-prev
+{
+	color: #000;
+}
+
+.ui-paginator a{
+	display: inline-block;
+	padding: 6px!important;
+	min-height: 31px!important;
+	min-width: 31px!important;
+	zoom: 1;
+	margin-left: 1px;
+	margin-right: 1px;
+	text-decoration: none;
+	outline: 0;
+	border: 1px solid #a8a8a8;
+	font-weight: bold;
+	color: #4f4f4f;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background: #c4c4c4!important;
+	background: #c4c4c4 -moz-linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0))!important;
+	background: #c4c4c4 -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0.8)),to(rgba(255,255,255,0)))!important;
+	background: #c4c4c4 linear-gradient(top,rgba(255,255,255,0.8),rgba(255,255,255,0))!important;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c4c4c4', endColorstr='#ffffff',GradientType=0 )!important;
+}
+
+.ui-dialog-content{
+	background: #fff!important;
+	max-height: calc(100vh - 47px)!important;
+    overflow: auto!important;
+    padding: 0.6em!important;
+}
+
+.ui-treetable .ui-treetable-header{
+  	width: 99.9%;
+}
+
+
+.ui-datatable-scrollable-header-box thead th,
+.ui-datatable-tablewrapper thead th,
+.ui-treetable thead th{
+	color: #000!important;
+	border: 1px solid #BDBDBD!important;
+	text-transform: uppercase;
+    text-shadow: none!important;;
+    border-radius: 0px!important;
+    background: #9a9a9a !important; 
+}
+
+.ui-datatable-scrollable-body tbody tr.ui-state-highlight,
+.ui-datatable-tablewrapper tbody tr.ui-state-highlight,
+.ui-treetable tbody tr.ui-state-highlight{
+	/*color: #4f4f4f!important;*/
+	/*font-weight: bold!important;*/
+	text-shadow: none;
+	border: 1px solid #eee0c2;
+	background: #eee0c2!important;	
+}
+
+.ui-datatable-scrollable-body tbody .ui-icon.ui-icon-triangle-1-e:before,
+.ui-datatable-scrollable-body tbody .ui-icon.ui-icon-triangle-1-s:before,
+.ui-datatable-tablewrapper tbody .ui-icon.ui-icon-triangle-1-e:before,
+.ui-datatable-tablewrapper tbody .ui-icon.ui-icon-triangle-1-s:before,
+.ui-treetable tbody .ui-icon.ui-icon-triangle-1-e:before,
+.ui-treetable tbody .ui-icon.ui-icon-triangle-1-s:before{
+	color: #4f4f4f!important;
+    padding: 0!important;
+}
+
+.ui-datatable-scrollable-body tbody td,
+.ui-datatable-tablewrapper tbody td,
+.ui-treetable tbody td{
+	/*color: #4f4f4f!important;*/
+	border: 1px solid #BDBDBD;
+	word-wrap: break-word;
+}
+
+.dialog-fix{
+	min-width: 450px;
+	max-width: 850px;
+}
+
+/* ======= ALERTAS ======================================== */
+.ui-growl{
+	z-index: 1050!important;
+}
+
+.ui-growl-image {
+    border-radius: 0!important;
+	background: none!important;
+	font-family: 'FontAwesome';
+    font-size: 2.2em;
+    margin: 3% 0!important;
+}
+
+.ui-growl-image:before{
+	background: none!important;	
+    text-indent: 0;
+    float: left;
+    margin-left: 3px;
+    margin-top: -3px;
+}
+
+.ui-growl-image-info:before {    
+    content: "\f05a";
+    color: #6b9dcf;
+}
+
+.ui-growl-image-error:before {
+    content: "\f057";
+    color: #b80000;
+}
+
+.ui-growl-image-fatal:before {
+    content: "\f05e";
+    color: #b80000;
+}
+
+.ui-growl-image-warn:before {
+    content: "\f071";
+    color: #f0b13e;
+}
+
+.ui-growl-message{
+    color: #2E2E2E;
+    margin-right: 5px;
+}
+
+.ui-growl-item-container {
+    position:relative;
+	border: 1px solid #d8b56c;
+	background: #f3cf89;
+    opacity: 1;
+}
+
+/* ======= BLOQUEO ======================================== */
+.ui-dialog-mask{
+	background: #000!important;
+ 	opacity: 0.6!important;
+}

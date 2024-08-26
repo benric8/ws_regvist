@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">	
+	<ui:composition>	
+		<p:dialog id="dlgOficina" 
+				modal="true" 
+				widgetVar="dlgOficina" 
+				resizable="false" 
+				header="#{form['form.text.puntoControl.oficina.titulo']}"
+				styleClass="dialog-fix dialog-fix-responsive"
+				appendTo="@(body)"
+				responsive="true">
+			<h:form id="frmOficina">
+				<p:dataTable id="oficinaDT" 
+						var="oficina" 
+						value="#{puntoControlMB.listaOficina}" 
+						rowKey="#{oficina.idOficina}"
+						emptyMessage="#{form['tabla.noExistenRegistros']}"
+						paginator="true" 
+						paginatorPosition="top" 
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="Registros: {totalRecords} - [ Página : {currentPage}/{totalPages} ]"
+						rows="5"
+						rowsPerPageTemplate="5,10,15"
+						rowIndexVar="rowIndex"
+						selection="#{puntoControlMB.oficinaSeleccionada}"
+						rowStyleClass="#{(rowIndex mod 2) eq 0 ? null : 'even-row-color'}"
+						widgetVar="oficinaDT"
+						filteredValue="#{puntoControlMB.filtroNombreOficina}"
+						reflow="true">
+			        <p:ajax event="rowSelectRadio" update=":frmOficina:btnSeleccionarOficina" />
+					
+					<p:column selectionMode="single" styleClass="text-center" width="4%" />
+					
+					<p:column styleClass="text-center" width="50px;" headerText="#{form['form.nro']}">
+						<h:outputText value="#{rowIndex + 1}" />
+					</p:column>
+
+				    <p:column headerText="#{form['form.list.puntoControl.oficina.col.nombre']}" styleClass="text-center" 
+				    			filterBy="#{oficina.nomOficina}" filterMatchMode="contains">
+				        <h:outputText value="#{oficina.nomOficina}" />
+				    </p:column>
+				    <p:column headerText="#{form['form.list.puntoControl.oficina.col.direccion']}" styleClass="text-center" 
+				    			filterBy="#{oficina.direccion}" filterMatchMode="contains">
+				        <h:outputText value="#{oficina.direccion}" />
+				    </p:column>
+		       	</p:dataTable>
+				<div class="mt-2">
+					<div class="col-12 col-md-12 text-center">
+						<div class="border-top-buttons pt-2">
+							<p:commandButton id="btnSeleccionarOficina"
+											value="#{form['form.boton.seleccionar']}" 
+											styleClass="btn btn-secondary"
+											disabled="#{puntoControlMB.oficinaSeleccionada==null}"										
+									 		actionListener="#{puntoControlMB.seleccionarOficina()}" 
+									 		update=":frmPuntoControl, :listaMensajes" />
+							<p:commandButton value="#{form['form.boton.cancelar']}" 
+											styleClass="btn btn-secondary"
+									 		actionListener="#{puntoControlMB.cerrarBusquedaOficina()}" 
+									 		update=":frmPuntoControl, :listaMensajes" />
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</p:dialog>
+	</ui:composition>
+</html>

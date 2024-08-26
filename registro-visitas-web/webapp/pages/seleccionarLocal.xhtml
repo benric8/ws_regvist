@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:p="http://primefaces.org/ui"
+				template="/templates/principal-locales.xhtml">
+ 
+	<ui:define name="content">
+		<f:view>
+            <div class="row justify-content-center align-items-start m-0">
+				<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
+					<div class="card card-custom">
+						<div class="card-body">
+					  		<h:form id="frmContinuar">
+								<div class="row">
+									<div class="form-group col-12 col-md-12 col-lg-12"  >
+				            			<b><p:outputLabel value="#{form['form.seleccion.puntocontrol.local']}" /></b>
+				            			<h:selectOneMenu id="local" value="#{loginMB.puntoControl.nIdLocal}" styleClass="form-control" >				        
+				              				<f:selectItem itemLabel="#{ form['form.seleccione']} " itemValue="" noSelectionOption="true"  />
+				              				<f:selectItems value="#{sessionMB.listaLocal}" var="lo" itemLabel="#{lo.descripcion}" itemValue="#{lo.idCodLocal}" />
+				              				<f:ajax event="change" listener="#{loginMB.listarPuntosControl}"
+												execute="@form"
+												render="puntoControl" />
+				            			</h:selectOneMenu>
+	          						</div>
+								</div>
+								
+								<div class="row">
+									<div class="form-group col-12 col-md-12 col-lg-12"  >
+										<b><p:outputLabel value="#{form['form.seleccion.puntocontrol']}" /></b>
+				            			<h:selectOneMenu id="puntoControl" value="#{loginMB.puntoControl.nIdPuntoControl}" styleClass="form-control">				            				
+				              				<f:selectItem itemLabel="#{ form['form.seleccione']} " itemValue=""  noSelectionOption="true"  />
+				              				<f:selectItems value="#{loginMB.listaPuntoControl}" var="pc" itemLabel="#{pc.nombre}" itemValue="#{pc.nIdPuntoControl}" />
+				            			</h:selectOneMenu>
+									
+									</div>
+								</div>
+								
+								<div class="row">
+							    	
+							    	<div class="form-group col-12">
+								    	<p:commandButton id="btnContinuar" 
+												    	value="Continuar" 
+												    	ajax="false" 
+												    	tabindex="3"
+														styleClass="btn btn-secondary btn-block" 
+														action="#{ loginMB.continuarLogin}" 
+														update=":frmContinuar" />
+									</div>
+
+							    </div>							    
+							</h:form>
+						</div>
+					</div>
+				</div>				
+			</div>	
+		</f:view>
+	</ui:define>
+	
+</ui:composition>
+

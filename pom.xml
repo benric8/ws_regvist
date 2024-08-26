@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>procesos.gestion.configuracion</groupId>
+		<artifactId>pj-aplicaciones-visitas</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	
+	<groupId>pe.gob.pj.administrativos.visitas</groupId>
+	<artifactId>registro-visitas</artifactId>
+	<version>1.1.0</version>
+	<packaging>pom</packaging>
+	<name>registro-visitas</name>
+	<description>Arquetipo basado en una estructura jsf, spring y hibernate.</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<extension-name>registro-visitas</extension-name>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>pe.gob.pj.ws.cliente</groupId>
+			<artifactId>client-pide-ws</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>pe.gob.pj.api.mail</groupId>
+			<artifactId>api-mail-pj</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ocpsoft</groupId>
+			<artifactId>prettyfaces-jsf2</artifactId>
+			<version>3.3.3</version>
+		</dependency>
+		<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.5.4</version>
+</dependency>
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.5.4</version>
+</dependency>
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			
+			<dependency>
+				<groupId>pe.gob.pj.administrativos.visitas</groupId>
+				<artifactId>registro-visitas-entity</artifactId>
+				<version>1.1.0</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>pe.gob.pj.administrativos.visitas</groupId>
+				<artifactId>registro-visitas-model</artifactId>
+				<version>1.1.0</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>pe.gob.pj.administrativos.visitas</groupId>
+				<artifactId>registro-visitas-service</artifactId>
+				<version>1.1.0</version>
+				<type>jar</type>
+			</dependency>
+
+			<dependency>
+				<groupId>pe.gob.pj.administrativos.visitas</groupId>
+				<artifactId>registro-visitas-web</artifactId>
+				<version>1.1.0</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+		        <groupId>com.fasterxml.jackson.dataformat</groupId>
+		        <artifactId>jackson-dataformat-xml</artifactId>
+		        <version>2.11.4</version>
+		    </dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>0.10.5</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>0.10.5</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId>
+				<version>0.10.5</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-text</artifactId>
+				<version>1.6</version>
+			</dependency>
+			
+
+		</dependencies>
+	</dependencyManagement>
+  <modules>
+    <module>registro-visitas-entity</module>
+    <module>registro-visitas-model</module>
+    <module>registro-visitas-service</module>
+    <module>registro-visitas-web</module>
+    <module>registro-visitas-ear</module>
+  </modules>
+</project>
