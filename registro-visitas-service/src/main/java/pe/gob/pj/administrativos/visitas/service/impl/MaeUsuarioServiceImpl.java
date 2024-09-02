@@ -92,7 +92,12 @@ public class MaeUsuarioServiceImpl extends BaseServiceImpl<Long, MaeUsuario> imp
 		maeUsuario.setxAnexo(usuario.getxAnexo());
 		maeUsuario.setnIdCorte(usuario.getIdCorte());
 		maeUsuario.setxCorreo(usuario.getCorreo());
-		
+		if(maeUsuario.getMaePerfil().getnIdPerfil()!=usuario.getPerfilDto().getnIdPerfil()) {
+			MaePerfil nuevoPerfil = new MaePerfil();
+		    nuevoPerfil.setnIdPerfil(usuario.getPerfilDto().getnIdPerfil());
+		    maeUsuario.setMaePerfil(nuevoPerfil);
+		}
+			
 		// Datos de auditoría
 		maeUsuario.setxIpOperacion(usuario.getxIpOperacion());
 		maeUsuario.setfOperacion(usuario.getfOperacion());

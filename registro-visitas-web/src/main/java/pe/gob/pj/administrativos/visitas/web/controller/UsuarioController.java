@@ -26,6 +26,7 @@ import pe.gob.pj.administrativos.visitas.model.util.ConstantesMensaje;
 import pe.gob.pj.administrativos.visitas.model.util.ConstantesVisitas;
 import pe.gob.pj.administrativos.visitas.model.util.FormularioOpcion;
 import pe.gob.pj.administrativos.visitas.model.util.ParametrosDeBusqueda;
+import pe.gob.pj.administrativos.visitas.model.util.PerfilUsuario;
 import pe.gob.pj.administrativos.visitas.service.CfgPuntoControlService;
 import pe.gob.pj.administrativos.visitas.service.MaePerfilService;
 import pe.gob.pj.administrativos.visitas.service.MaeTipoDocumentoService;
@@ -119,6 +120,7 @@ public class UsuarioController extends BaseController implements Serializable {
 	private String filtroNombreCompleto;
 	private List<CorteDto> listaCortes;
 	private String estiloCorte;
+	private Long idPerfilSeleccionado;
 	
 	@PostConstruct
 	public void init() {
@@ -137,7 +139,11 @@ public class UsuarioController extends BaseController implements Serializable {
 					//TODO 20180621 MEU Agrega lista de Cortes
 					listaCortes = vCorteService.listarCortes(obtenerAnioActual());
 					//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+					
+					
+					
 					this.listaPerfil = maePerfilService.buscarPerfil();
+					listarPerfiles();
 					this.listaLocal=cfgPuntoControlService.listarLocales
 							(this.getSessionController().getUsuarioSession().getIdUnidadEjecutora(),
 									this.getSessionController().getUsuarioSession().getIdCorte());
@@ -166,6 +172,28 @@ public class UsuarioController extends BaseController implements Serializable {
 			logger.error(getGenerarError(Thread.currentThread().getStackTrace()[1].getMethodName(), ConstantesVisitas.NIVEL_APP_MAGBEAN, this.getClass().getName(), e));
 		}
 	}
+	
+	public void listarPerfiles() {
+		long idPerfilUserLogged = usuarioLogueado.getPerfilDto().getnIdPerfil();
+		if(idPerfilUserLogged==PerfilUsuario.ADMINISTRADOR_SISTEMA.getIdPerfil()) {
+			this.listaPerfil = filtrarPorPerfil(this.listaPerfil, PerfilUsuario.ADMINISTRADOR_SISTEMA.getIdPerfil());
+			
+		}else if(idPerfilUserLogged==PerfilUsuario.ADMINISTRADOR_CORTE.getIdPerfil()) {
+			this.listaPerfil = filtrarPorPerfil(this.listaPerfil, PerfilUsuario.ADMINISTRADOR_SISTEMA.getIdPerfil());
+			this.listaPerfil = filtrarPorPerfil(this.listaPerfil, PerfilUsuario.ADMINISTRADOR_CORTE.getIdPerfil());
+			
+		}
+	}
+	
+	public static List<PerfilDto> filtrarPorPerfil(List<PerfilDto> perfiles,long filtro) {
+        List<PerfilDto> resultado = new ArrayList<PerfilDto>();
+        for (PerfilDto perfil : perfiles) {
+            if (perfil.getnIdPerfil() != filtro) {
+                resultado.add(perfil);
+            }
+        }
+        return resultado;
+    }
 	
 	public void buscar() {
 		try {
@@ -240,7 +268,7 @@ public class UsuarioController extends BaseController implements Serializable {
 			
 			this.usuario.setLbEstadoRegistro(true);
 			this.usuario.setTipoDocumentoDto(new TipoDocumentoDto());
-			this.usuario.setPerfilDto(new PerfilDto());
+			this.usuario.setPerfilDto(this.listaPerfil.get(0));
 			this.trabajador = new TrabajadorDto();
 			this.estiloCorte="";
 			
@@ -297,6 +325,9 @@ public class UsuarioController extends BaseController implements Serializable {
 		}
 	}
 	
+	
+	
+	
 	private boolean existeUsuario() {
 		boolean respuesta = false;
 		try {
@@ -314,6 +345,11 @@ public class UsuarioController extends BaseController implements Serializable {
 		return respuesta;
 	}
 		
+	public void cambiarPerfil(){
+		this.idPerfilSeleccionado = usuario.getPerfilDto().getnIdPerfil();
+		
+	}
+	
 	public void listenerTipoDocumento(){
 
 		this.usuario.setxNroDocumento("");
@@ -455,7 +491,7 @@ public class UsuarioController extends BaseController implements Serializable {
 					
 				}else if( Long.compare( this.getSessionController().getUsuarioSession().getPerfilDto().getnIdPerfil(), ConstantesVisitas.PERFIL_ADMINISTRADOR_SISTEMA)==0 ){
 					PerfilDto perfil = new PerfilDto();
-					perfil.setnIdPerfil( ConstantesVisitas.PERFIL_ADMINISTRADOR_CORTE );
+					perfil.setnIdPerfil( getIdPerfilSeleccionado() );
 					usuario.setPerfilDto(perfil);
 				}
 				
@@ -849,6 +885,15 @@ public class UsuarioController extends BaseController implements Serializable {
 	public void setEstiloCorte(String estiloCorte) {
 		this.estiloCorte = estiloCorte;
 	}
+
+	public Long getIdPerfilSeleccionado() {
+		return idPerfilSeleccionado;
+	}
+
+	public void setIdPerfilSeleccionado(Long idPerfilSeleccionado) {
+		this.idPerfilSeleccionado = idPerfilSeleccionado;
+	}
+	
 	
 	
 	

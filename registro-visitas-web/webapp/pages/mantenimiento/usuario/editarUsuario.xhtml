@@ -17,9 +17,12 @@
 			<h:form id="frmUsuario" rendered="#{not empty usuarioMB.usuario}">
 				<p:panel>
 					<div class="row mb-1">
-						<p:outputLabel for="edit_desc_perfil" value="#{form['usuario.form.perfil']}" styleClass="col-12 col-md-4 col-form-label" />
+						<p:outputLabel for="selectorPerfil" value="#{form['usuario.form.perfil']}" styleClass="col-12 col-md-4 col-form-label" />
 						<div class="col-12 col-md-8"> 
-							<h:inputText id="edit_desc_perfil" value="#{ usuarioMB.usuario.descripcionPerfilRegistro }" styleClass="form-control" disabled="true" />
+							<h:selectOneMenu id="selectorPerfil" value="#{usuarioMB.usuario.perfilDto.nIdPerfil}" styleClass="form-control #{usuarioMB.estiloCorte}" >
+								<f:selectItems value="#{usuarioMB.listaPerfil}" var="perfil" itemLabel="#{perfil.xDescripcion}" itemValue="#{perfil.nIdPerfil}" />
+								<p:ajax listener="#{usuarioMB.cambiarPerfil}" update="selectorPerfil" />
+							</h:selectOneMenu>
 						</div>
 					</div>
 					<div class="row mb-1">
